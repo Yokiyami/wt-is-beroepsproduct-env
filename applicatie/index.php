@@ -31,12 +31,15 @@
     </ul>
   </nav>
   <nav class="mobile-nav">
-    <select>
-      <option disabled selected>Menu</option>
-      <option value="link1">Link 1</option>
-      <option value="link2">Link 2</option>
-      <option value="link3">Link 3</option>
-    </select>
+    <form action="functies.php" method="GET">
+      <select name="pagina" onchange="this.form.submit()">
+        <option disabled selected>Menu</option>
+        <option value="index.php">Startpagina</option>
+        <option value="privacyverklaring.php">Privacyverklaring</option>
+        <option value="contact.php">Contact</option>
+        <option value="vluchtenoverzicht.php">Vluchtenoverzicht</option>
+      </select>
+    </form>
   </nav>
   <div class="main-container">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut risus vitae ipsum eleifend dignissim. Sed eu

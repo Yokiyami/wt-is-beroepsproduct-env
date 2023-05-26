@@ -27,14 +27,17 @@
       <a href="vluchtenoverzicht.php">Vluchtenoverzicht</a>
     </ul>
   </nav>
-    <nav class="mobile-nav">
-        <select>
-            <option disabled selected>Menu</option>
-            <option value="link1">Link 1</option>
-            <option value="link2">Link 2</option>
-            <option value="link3">Link 3</option>
-        </select>
-    </nav>
+  <nav class="mobile-nav">
+    <form action="functies.php" method="GET">
+      <select name="pagina" onchange="this.form.submit()">
+        <option disabled selected>Menu</option>
+        <option value="index.php">Startpagina</option>
+        <option value="privacyverklaring.php">Privacyverklaring</option>
+        <option value="contact.php">Contact</option>
+        <option value="vluchtenoverzicht.php">Vluchtenoverzicht</option>
+      </select>
+    </form>
+  </nav>
     <div class="main-container">
         <div class="zoekbalk">
             <form action="/zoeken" method="GET">
