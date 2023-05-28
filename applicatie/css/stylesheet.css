@@ -121,7 +121,7 @@
   input,
   select {
     grid-column: 2;
-    width: 100%;
+    max-width: 100%;
   }
   
   input[type="submit"] {
