@@ -2,19 +2,22 @@
 include_once 'header.php';
 include_once 'functies.php';
 
-list($vluchten, $kolommen) = vulVluchten('vluchtenOv');
+list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenOv');
 
 ?>
 
 <div class="zoekbalk">
-    <form action="/zoeken" method="GET">
-        <input type="text" name="query" placeholder="Zoek hier op vluchtnummer" />
+    <form action="./vluchtenoverzicht.php" method="POST">
+        <input type="text" name="vluchtnummer" placeholder="Zoek hier op vluchtnummer" />
         <input type="submit" value="Zoeken" />
     </form>
 </div>
 <div class="tabel-container">
     <?php
     echo genereerTabel($vluchten, $kolommen);
+    if ($foutmelding !== null) {
+        echo "<p>{$foutmelding}</p>";
+    }
     ?>
 </div>
 

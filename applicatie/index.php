@@ -4,7 +4,7 @@ include_once 'header.php';
 
   ?>
 
-<div class="startpagina-intro">
+<div class="tekstblok">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut risus vitae ipsum eleifend dignissim. Sed eu
   tellus non nisl laoreet tincidunt. Morbi vestibulum tellus nulla, vel tincidunt lectus aliquam ut. Nulla facilisi.
   Sed iaculis fermentum orci, vel eleifend elit. Quisque mattis nunc ac dui faucibus posuere. Nam vestibulum est in

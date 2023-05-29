@@ -1,12 +1,14 @@
 <?php
-
 include_once 'header.php';
+include_once 'functies.php';
 
-    ?>
+list($passagiers, $foutmelding) = vulPassagiers();
+
+?>
 
 <div class="zoekbalk">
-    <form action="/zoeken" method="GET">
-        <input type="text" name="query" placeholder="Passagiernummer" />
+    <form action="./medewerker-passagieroverzicht.php" method="POST">
+        <input type="text" name="passagiernummer" placeholder="Passagiernummer" />
         <input type="submit" value="Zoeken" />
     </form>
     <div class="toevoeg-button">
@@ -19,51 +21,16 @@ include_once 'header.php';
         <a href="medewerker-vluchtenoverzicht.php">Vluchten</a>
         <a href="medewerker-passagieroverzicht.php">Passagiers</a>
     </div>
-    <table class="tabel">
-        <thead>
-            <tr>
-                <th>Naam</th>
-                <th>Geslacht</th>
-                <th>Vluchtnummer</th>
-                <th>Stoel</th>
-                <th>Check-in</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td data-label="Naam">01-05-2023 09:00</td>
-                <td data-label="Geslacht">KL123</td>
-                <td data-label="Vluchtnummer">Schiphol</td>
-                <td data-label="Stoel">A1</td>
-                <td data-label="Check-in"><a href="medewerker-checkin.php"><button>Check-in</button></a></td>
-            </tr>
-            <tr>
-                <td data-label="Naam">01-05-2023 09:00</td>
-                <td data-label="Geslacht">KL123</td>
-                <td data-label="Vluchtnummer">Schiphol</td>
-                <td data-label="Stoel">A1</td>
-                <td data-label="Check-in"><a href="medewerker-checkin.php"><button>Check-in</button></a></td>
-            </tr>
-            <tr>
-                <td data-label="Naam">01-05-2023 09:00</td>
-                <td data-label="Geslacht">KL123</td>
-                <td data-label="Vluchtnummer">Schiphol</td>
-                <td data-label="Stoel">A1</td>
-                <td data-label="Check-in"><a href="medewerker-checkin.php"><button>Check-in</button></a></td>
-            </tr>
-            <tr>
-                <td data-label="Naam">01-05-2023 09:00</td>
-                <td data-label="Geslacht">KL123</td>
-                <td data-label="Vluchtnummer">Schiphol</td>
-                <td data-label="Stoel">A1</td>
-                <td data-label="Check-in"><a href="medewerker-checkin.php"><button>Check-in</button></a></td>
-            </tr>
-        </tbody>
-    </table>
+    <?php
+    echo genereerPassagierTabel($passagiers);
+    if ($foutmelding !== null) {
+        echo "<p>{$foutmelding}</p>";
+    }
+    ?>
 </div>
 
 <?php
 
 include_once 'footer.php';
 
-    ?>
+?>

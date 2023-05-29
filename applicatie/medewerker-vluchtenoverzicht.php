@@ -2,7 +2,7 @@
 include_once 'header.php';
 include_once 'functies.php';
 
-list($vluchten, $kolommen) = vulVluchten('vluchtenMw');
+list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenMw');
 
 ?>
 
@@ -23,6 +23,9 @@ list($vluchten, $kolommen) = vulVluchten('vluchtenMw');
     </div>
     <?php
     echo genereerTabel($vluchten, $kolommen);
+    if ($foutmelding !== null) {
+        echo "<p>{$foutmelding}</p>";
+    }
     ?>
 </div>
 

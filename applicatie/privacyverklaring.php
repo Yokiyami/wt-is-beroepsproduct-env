@@ -4,7 +4,7 @@ include_once 'header.php';
 
     ?>
 
-<div class="privacyverklaring">
+<div class="tekstblok">
     <h1>Privacybeleid voor Gelre Airport</h1>
     <br>
     <p>Datum laatste herziening: 19 mei 2023</p>

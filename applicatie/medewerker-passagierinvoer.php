@@ -1,12 +1,13 @@
 <?php
 
 include_once 'header.php';
+include_once 'functies.php';
 
     ?>
 
 <div class="formuliervenster">
     <h2>Passagier invoeren</h2>
-    <form action="/submit" method="POST">
+    <form action="./medewerker-passagierinvoer.php" method="POST">
         <div class="form-rij">
             <label for="naam">Naam:</label>
             <input type="text" id="naam" name="naam" required>
