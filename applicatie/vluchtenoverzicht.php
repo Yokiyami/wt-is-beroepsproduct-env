@@ -1,8 +1,10 @@
 <?php
-
 include_once 'header.php';
+include_once 'functies.php';
 
-    ?>
+list($vluchten, $kolommen) = vulVluchten('vluchtenOv');
+
+?>
 
 <div class="zoekbalk">
     <form action="/zoeken" method="GET">
@@ -11,51 +13,13 @@ include_once 'header.php';
     </form>
 </div>
 <div class="tabel-container">
-    <table class="tabel">
-        <thead>
-            <tr>
-                <th>Datum &amp; tijd</th>
-                <th>Vluchtnr</th>
-                <th>Gate</th>
-                <th>Bestemming</th>
-                <th>Maatschappij</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td data-label="Datum &amp; tijd">01-05-2023 09:00</td>
-                <td data-label="Vluchtnr">KL123</td>
-                <td data-label="Gate">A1</td>
-                <td data-label="Bestemming">Londen</td>
-                <td data-label="Maatschappij">KLM</td>
-            </tr>
-            <tr>
-                <td data-label="Datum &amp; tijd">01-05-2023 09:00</td>
-                <td data-label="Vluchtnr">KL123</td>
-                <td data-label="Gate">A1</td>
-                <td data-label="Bestemming">Londen</td>
-                <td data-label="Maatschappij">KLM</td>
-            </tr>
-            <tr>
-                <td data-label="Datum &amp; tijd">01-05-2023 09:00</td>
-                <td data-label="Vluchtnr">KL123</td>
-                <td data-label="Gate">A1</td>
-                <td data-label="Bestemming">Londen</td>
-                <td data-label="Maatschappij">KLM</td>
-            </tr>
-            <tr>
-                <td data-label="Datum &amp; tijd">01-05-2023 09:00</td>
-                <td data-label="Vluchtnr">KL123</td>
-                <td data-label="Gate">A1</td>
-                <td data-label="Bestemming">Londen</td>
-                <td data-label="Maatschappij">KLM</td>
-            </tr>
-        </tbody>
-    </table>
+    <?php
+    echo genereerTabel($vluchten, $kolommen);
+    ?>
 </div>
 
 <?php
 
 include_once 'footer.php';
 
-    ?>
+?>
