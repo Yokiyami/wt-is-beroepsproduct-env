@@ -16,11 +16,11 @@
         <img src="img/logo.png" alt="Een plaatje van een vliegtuigje als een logo">
         <h1> Gelre Checkin</h1>
         <div class="login-button">
-            <form action="functies.php" method="GET">
+            <form action="functies/dropdown-menus.php" method="GET">
                 <select name="login-als" onchange="this.form.submit()">
                     <option disabled selected>Log in als</option>
-                    <option value="passagier-login.php">Passagier</option>
-                    <option value="medewerker-login.php">Medewerker</option>
+                    <option value="/passagier-login.php">Passagier</option>
+                    <option value="/medewerker-login.php">Medewerker</option>
                 </select>
             </form>
         </div>
@@ -34,13 +34,13 @@
         </ul>
     </nav>
     <nav class="mobile-nav">
-        <form action="functies.php" method="GET">
+        <form action="functies/dropdown-menus.php" method="GET">
             <select name="pagina" onchange="this.form.submit()">
                 <option disabled selected>Menu</option>
-                <option value="index.php">Startpagina</option>
-                <option value="privacyverklaring.php">Privacyverklaring</option>
-                <option value="contact.php">Contact</option>
-                <option value="vluchtenoverzicht.php">Vluchtenoverzicht</option>
+                <option value="/index.php">Startpagina</option>
+                <option value="/privacyverklaring.php">Privacyverklaring</option>
+                <option value="/contact.php">Contact</option>
+                <option value="/vluchtenoverzicht.php">Vluchtenoverzicht</option>
             </select>
         </form>
     </nav>

@@ -1,7 +1,7 @@
 <?php
 
 include_once 'header.php';
-include_once 'functies.php';
+include_once 'functies/bagagetabel.php';
 
 list($bagage, $foutmelding) = vulBagage();
 
