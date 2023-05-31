@@ -17,10 +17,13 @@ unset($db_password);
 // Zorg ervoor dat eventuele fouttoestanden ook echt als fouten (exceptions) gesignaleerd worden door PHP.
 $verbinding->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+if ($conn->connect_error) {
+  die("Kan geen verbinding maken met de database: " . $conn->connect_error);
+}
+
 // Functie om in andere files toegang te krijgen tot de verbinding.
 function maakVerbinding() {
   global $verbinding;
   return $verbinding;
 }
-
 ?>

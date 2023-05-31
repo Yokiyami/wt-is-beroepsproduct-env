@@ -1,3 +1,3 @@
 <?php
-echo ('Hallo Elvis');
+print_r (PDO::getAvailableDrivers());
 ?>
