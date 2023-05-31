@@ -1,38 +1,40 @@
 <?php
+
+require_once 'passagierqueries.php';
+
 ///////////////////////////////////////////////////////////////////////////PASSAGIERSTABEL////////////////////////////////////////////////////////////////////////////////////
 // Functie om vooraf gedefinieerde passagiers op te halen
-function haalPassagiers($passagiernummer = null)
-{
-    $passagiers = array(
-        "PAS001" => array(
-            "naam" => "Jan Jansen",
-            "geslacht" => "Man",
-            "passagiernummer" => "PAS001",
-            "stoel" => "12A",
-            "checkinpagina" => "medewerker-checkin.php"
-        ),
-        "PAS002" => array(
-            "naam" => "Petra Pietersen",
-            "geslacht" => "Vrouw",
-            "passagiernummer" => "PAS002",
-            "stoel" => "12B",
-            "checkinpagina" => "medewerker-checkin.php"
-        ),
-        // ...
-    );
+// function haalPassagiers($passagiernummer = null)
+// {
+//     $passagiers = array(
+//         "PAS001" => array(
+//             "naam" => "Jan Jansen",
+//             "geslacht" => "Man",
+//             "passagiernummer" => "PAS001",
+//             "stoel" => "12A",
+//             "checkinpagina" => "medewerker-checkin.php"
+//         ),
+//         "PAS002" => array(
+//             "naam" => "Petra Pietersen",
+//             "geslacht" => "Vrouw",
+//             "passagiernummer" => "PAS002",
+//             "stoel" => "12B",
+//             "checkinpagina" => "medewerker-checkin.php"
+//         ),
+//         // ...
+//     );
 
-    // Als er een passagiernummer is opgegeven, retourneer alleen die passagier, een lege array bij niet bestaande passagier.
-    if ($passagiernummer !== null) {
-        if (isset($passagiers[$passagiernummer])) {
-            $passagiers = array($passagiernummer => $passagiers[$passagiernummer]);
-        } else {
-            // Als het passagiernummer niet in de array bestaat, retourneer een lege array
-            $passagiers = array();
-        }
-    }
+    // // Als er een passagiernummer is opgegeven, retourneer alleen die passagier, een lege array bij niet bestaande passagier.
+    // if ($passagiernummer !== null) {
+    //     if (isset($passagiers[$passagiernummer])) {
+    //         $passagiers = array($passagiernummer => $passagiers[$passagiernummer]);
+    //     } else {
+    //         // Als het passagiernummer niet in de array bestaat, retourneer een lege array
+    //         $passagiers = array();
+    //     }
+    // }
 
-    return $passagiers;
-}
+    // return $passagiers;
 
 // Functie om een HTML tabel te genereren uit de gegeven passagiers data
 function genereerPassagierTabel($passagiers)
@@ -52,7 +54,7 @@ function genereerPassagierTabel($passagiers)
         $html .= '<tr>';
         foreach ($kolommen as $kolom) {
             if ($kolom == 'checkinpagina') {
-                $html .= '<td data-label="' . $kolom . '"><a href="' . $passagier[$kolom] . '"><button>Check-in</button></a></td>';
+                $html .= '<td data-label="checkinpagina"><a href="medewerker-checkin.php"><button>Check-in</button></a></td>';
             } else {
                 $html .= '<td data-label="' . $kolom . '">' . $passagier[$kolom] . '</td>';
             }
