@@ -1,6 +1,6 @@
 <?php
 
-require_once './queries/vluchtenqueries.php';
+require_once './database/vluchtenqueries.php';
 
 //Vluchtdetails ophalen
 if (isset($_GET['vluchtnummer'])) {
@@ -91,8 +91,8 @@ function genereerTabel($vluchten, $kolommen)
   foreach ($vluchten as $vlucht) {
     $html .= '<tr>';
     foreach ($kolommen as $kolom) {
-      if ($kolom == 'detailpagina') {
-        $detailpagina = 'medewerker-vluchtdetails.php?vluchtnummer=' . $vlucht['vluchtnummer'];
+      if ($kolom == 'Detailpagina') {
+        $detailpagina = 'medewerker-vluchtdetails.php?vluchtnummer=' . $vlucht['Vluchtnummer'];
         $html .= '<td data-label="' . $kolom . '"><a href="' . $detailpagina . '"><button>Details</button></a></td>';
       } else {
         $html .= '<td data-label="' . $kolom . '">' . $vlucht[$kolom] . '</td>';
@@ -128,9 +128,10 @@ function vulVluchten($paginaType = null)
 
     // Een array met kolomdefinities voor verschillende pagina types
     $kolommen = array(
-        'vluchtenMw' => ['datum', 'vluchtnummer', 'luchthaven', 'gate', 'detailpagina'],
-        'vluchtenPa' => ['datum', 'vluchtnummer', 'gate', 'bestemming', 'maatschappij', 'bagage'],
-        'vluchtenOv' => ['datum', 'vluchtnummer', 'gate', 'bestemming', 'maatschappij']
+        'vluchtenMw' => ['Datum', 'Vluchtnummer', 'Luchthaven', 'Gate', 'Detailpagina'],
+        'vluchtenPa' => ['Datum', 'Vluchtnummer', 'Gate', 'Bestemming', 'Maatschappij', 'Bagage'],
+        'vluchtenOv' => ['Datum', 'Vluchtnummer', 'Gate', 'Bestemming', 'Maatschappij'],
+        'vluchtenDt' => ['Bestemming', 'Gate', 'Luchthaven', 'Max aantal', 'Datum', 'Maatschappij']
     );
 
     $kolomDefinities = $kolommen[$paginaType] ?? null; // Zorg voor een standaardwaarde als de sleutel niet bestaat

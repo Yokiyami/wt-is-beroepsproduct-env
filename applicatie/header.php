@@ -1,3 +1,6 @@
+<?php include './functies/login-loguitknop.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en-US">
 
@@ -16,13 +19,7 @@
         <img src="img/logo.png" alt="Een plaatje van een vliegtuigje als een logo">
         <h1> Gelre Checkin</h1>
         <div class="login-button">
-            <form action="functies/dropdown-menus.php" method="GET">
-                <select name="login-als" onchange="this.form.submit()">
-                    <option disabled selected>Log in als</option>
-                    <option value="/passagier-login.php">Passagier</option>
-                    <option value="/medewerker-login.php">Medewerker</option>
-                </select>
-            </form>
+            <?php toonLoginUitlogKnop(); ?>
         </div>
     </header>
     <nav class="desktop-nav">
@@ -45,3 +42,4 @@
         </form>
     </nav>
     <div class="main-container">
+    
