@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Fout wachtwoord en/of passagiernummer";
         }
     } else {
-        echo "Voer je passagiernummer en wachtwoord in.";
+        echo "Voer je passagiernummer(of medewerkeraccount) en wachtwoord in.";
     }
 }
 ?>

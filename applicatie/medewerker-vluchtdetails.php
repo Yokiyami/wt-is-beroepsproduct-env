@@ -1,7 +1,7 @@
 <?php
 
 include_once 'header.php';
-include_once 'functies/vluchtentabel.php';
+include_once 'php/vluchtentabel.php';
 
 // var_dump($vluchten);
 // var_dump($vlucht);

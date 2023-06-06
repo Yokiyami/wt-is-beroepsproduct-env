@@ -1,9 +1,9 @@
 <?php
 
 include_once 'header.php';
-include_once 'functies/passagier-invoer.php';
+require_once './php/passagier-invoer.php';
 
-    ?>
+?>
 
 <div class="formuliervenster">
     <h2>Passagier invoeren</h2>
@@ -17,18 +17,22 @@ include_once 'functies/passagier-invoer.php';
             <input type="text" id="passagiernummer" name="passagiernummer" required>
         </div>
         <div class="form-rij">
-            <label for="stoelnummer">Stoelnummer:</label>
-            <input type="text" id="stoelnummer" name="stoelnummer" required>
+            <label for="vluchtnummer">Vluchtnummer:</label>
+            <input type="text" id="vluchtnummer" name="vluchtnummer" required>
+        </div>
+        <div class="form-rij">
+            <label for="stoel">Stoelnummer:</label>
+            <input type="text" id="stoel" name="stoel" required>
         </div>
         <div class="form-rij">
             <label for="geslacht">Geslacht:</label>
             <div class="radio-options">
                 <label>
-                    <input type="radio" name="geslacht" value="man" required>
+                    <input type="radio" name="geslacht" value="M" required>
                     Man
                 </label>
                 <label>
-                    <input type="radio" name="geslacht" value="vrouw" required>
+                    <input type="radio" name="geslacht" value="V" required>
                     Vrouw
                 </label>
             </div>
@@ -41,4 +45,4 @@ include_once 'functies/passagier-invoer.php';
 
 include_once 'footer.php';
 
-    ?>
+?>

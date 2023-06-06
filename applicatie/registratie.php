@@ -1,7 +1,7 @@
 <?php
 
 include_once 'header.php';
-require_once './functies/registratie-logica.php';
+require_once './php/registratie-logica.php';
 
 ?>
 

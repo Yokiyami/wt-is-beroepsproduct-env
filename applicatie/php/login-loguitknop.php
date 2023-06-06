@@ -1,11 +1,12 @@
 <?php
+
 function toonLoginUitlogKnop()
 {
     session_start();
     if (isset($_SESSION['username'])) {
         // Gebruiker is ingelogd
         echo '
-        <form action="./functies/logout.php" method="post">
+        <form action="./php/logout.php" method="post">
             <input type="submit" value="Log uit">
         </form>';
 
@@ -23,7 +24,11 @@ function toonLoginUitlogKnop()
         echo '
         <form action="./loginpage.php" method="post">
             <input type="submit" value="Log in">
-        </form>';
+        </form>
+        <a href="./registratie.php">
+            <button type="button">Registreren</button>
+        </a>';
+
     }
 }
 ?>

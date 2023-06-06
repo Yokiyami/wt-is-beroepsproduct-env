@@ -1,6 +1,6 @@
 <?php
 include_once 'header.php';
-include_once 'functies/vluchtentabel.php';
+include_once 'php/vluchtentabel.php';
 
 list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenOv');
 

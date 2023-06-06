@@ -1,6 +1,6 @@
 <?php
 include_once 'header.php';
-include_once './functies/passagierstabel.php';
+include_once './php/passagierstabel.php';
 
 list($passagiers, $foutmelding) = vulPassagiers();
 

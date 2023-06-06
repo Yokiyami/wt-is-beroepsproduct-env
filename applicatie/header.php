@@ -1,4 +1,4 @@
-<?php include './functies/login-loguitknop.php';
+<?php include './php/login-loguitknop.php';
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +31,7 @@
         </ul>
     </nav>
     <nav class="mobile-nav">
-        <form action="functies/dropdown-menus.php" method="GET">
+        <form action="php/dropdown-menus.php" method="GET">
             <select name="pagina" onchange="this.form.submit()">
                 <option disabled selected>Menu</option>
                 <option value="/index.php">Startpagina</option>

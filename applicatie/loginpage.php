@@ -1,6 +1,6 @@
 <?php
 include_once 'header.php';
-include './functies/login-logica.php';
+include './php/login-logica.php';
 // Controleer of de gebruiker is ingelogd en toon de juiste inhoud
 list($logged_in, $html, $redirect) = login();
 
