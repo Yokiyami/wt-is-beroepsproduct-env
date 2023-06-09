@@ -4,11 +4,11 @@ if (!isset($_SESSION)) {
 }
 
 require_once './database/db_connectie.php';
+include_once './php/veiligheid.php';
 
-//CSRF token
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+// CSRFtoken
+$csrf_token = generateCSRFToken();
+
 
 function login()
 {
@@ -17,7 +17,7 @@ function login()
     $redirect = '';
 
     if (isset($_SESSION['username'])) {
-        $html = "<h1>Welcome " . htmlspecialchars($_SESSION['username']) . "</h1>"; // XSS preventie
+        $html = "<h1>Welcome " . ontsmet($_SESSION['username']) . "</h1>"; // XSS preventie
         $logged_in = true;
         $redirect = 'passagier-vluchtenoverzicht.php';
     }
@@ -51,14 +51,14 @@ function verifyUser($username, $password)
 
 // Zorgt ervoor dat de pagina alleen wordt verwerkt bij een POST-verzoek
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // CSRF preventie
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    // CSRF-validatie
+    if (!validateCSRFToken($_POST['csrf_token'])) {
         die('Invalid CSRF token');
     }
 
     if (isset($_POST['passagiernummer']) && isset($_POST['password'])) {
-        $passagiernummer = $_POST['passagiernummer'];
-        $password = $_POST['password'];
+        $passagiernummer = ontsmet($_POST['passagiernummer']);
+        $password = ontsmet($_POST['password']);
 
         // Controleer of het een medewerker is
         if ($passagiernummer === 'GelreMedewerker2023' && $password === 'P@sSwOrd2023!') {

@@ -2,6 +2,9 @@
 include_once 'header.php';
 include_once 'php/vluchtentabel.php';
 
+// CSRFtoken
+$csrf_token = generateCSRFToken();
+
 list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenOv');
 
 ?>
@@ -14,7 +17,7 @@ list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenOv');
 </div>
 <div class="tabel-container">
     <?php
-    echo genereerTabel($vluchten, $kolommen);
+    echo genereerTabel($vluchten, $kolommen, 'vluchtentabel.php');
     if ($foutmelding !== null) {
         echo "<p>{$foutmelding}</p>";
     }

@@ -3,17 +3,21 @@
 include_once 'header.php';
 include_once 'php/vluchtentabel.php';
 
+// CSRFtoken
+$csrf_token = generateCSRFToken();
+
 // var_dump($vluchten);
 // var_dump($vlucht);
 
 list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenDt');
+
 ?>
 
 <div class="tabel-container">
     <h1>Vluchtdetails</h1>
     <br>
     <?php
-    echo genereerTabel($vluchten, $kolommen);
+    echo genereerTabel($vluchten, $kolommen, 'medewerker-vluchtdetails.php');
     if ($foutmelding !== null) {
         echo "<p>{$foutmelding}</p>";
     }

@@ -43,6 +43,10 @@
     flex-direction: column;
     align-items: center;
   }
+
+  .tekstblok p {
+    text-align: center;
+  }
   
   .desktop-nav {
     display: flex;

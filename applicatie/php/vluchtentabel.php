@@ -1,6 +1,12 @@
 <?php
 
 require_once './database/vluchtenqueries.php';
+include_once './php/veiligheid.php';
+
+// Start de sessie
+if (!isset($_SESSION)) {
+  session_start();
+}
 
 //Vluchtdetails ophalen
 if (isset($_GET['vluchtnummer'])) {
@@ -15,10 +21,13 @@ if (!isset($_GET['pagina'])) {
   $pagina = $_GET['pagina'];
 }
 
+// Sorteerparameter ophalen uit de link
+$sorteerOp = ontsmet($_GET['sorteerOp'] ?? 'vluchtnummer');
+
 $vluchten_per_pagina = 10;
 $offset = ($pagina - 1) * $vluchten_per_pagina;
 
-list($vluchten) = haalVluchten($vluchtnummer, $offset, $vluchten_per_pagina);
+list($vluchten) = haalVluchten($vluchtnummer, $offset, $vluchten_per_pagina, $sorteerOp);
 
 if (isset($vluchten[$vluchtnummer])) {
   $vlucht = reset($vluchten);
@@ -27,13 +36,25 @@ if (isset($vluchten[$vluchtnummer])) {
 }
 
 // Functie om een HTML tabel te genereren uit de gegeven vluchten data en kolommen
-function genereerTabel($vluchten, $kolommen)
+function genereerTabel($vluchten, $kolommen, $paginaType)
 {
   $html = '<table class="tabel"><thead><tr>';
 
   // Headers genereren
   foreach ($kolommen as $kolom) {
-    $html .= "<th>{$kolom}</th>";
+    if ($paginaType === 'medewerker-vluchtenoverzicht.php') {
+      if ($kolom === 'Vluchtnummer') {
+        $html .= "<th><a href=\"?sorteerOp=Vluchtnummer\">{$kolom}</a></th>";
+      } elseif ($kolom === 'Datum') {
+        $html .= "<th><a href=\"?sorteerOp=Vertrektijd\">{$kolom}</a></th>";
+      } elseif ($kolom === 'Luchthaven') {
+        $html .= "<th><a href=\"?sorteerOp=Luchthavencode\">{$kolom}</a></th>";
+      } else {
+        $html .= "<th>{$kolom}</th>";
+      }
+    } else {
+      $html .= "<th>{$kolom}</th>";
+    }
   }
 
   $html .= '</tr></thead><tbody>';
@@ -60,46 +81,57 @@ function genereerTabel($vluchten, $kolommen)
 // Functie om vluchten data op te halen op basis van de gegeven pagina type en POST request
 function vulVluchten($paginaType = null)
 {
-    global $verbinding;
+  global $verbinding;
 
-    $vluchten = array();
-    $kolommen = array();
-    $foutmelding = null;
-    $passagiernummer = $_SESSION['username'] ?? 0;
+  $vluchten = array();
+  $kolommen = array();
+  $foutmelding = null;
+  $passagiernummer = $_SESSION['username'] ?? 0;
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["vluchtnummer"])) {
-        $vluchtnummer = $_POST["vluchtnummer"];
-        $vluchten = haalVluchten($vluchtnummer);
-        // Als er geen vluchten worden geretourneerd, maak een foutmelding
-        if (empty($vluchten)) {
-            $foutmelding = "Er zijn geen vluchten gevonden met het opgegeven vluchtnummer.";
-        }
-    } else if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["vluchtnummer"]) && $paginaType === 'vluchtenDt') {
-        $vluchtnummer = $_GET["vluchtnummer"];
-        $vluchten = array(haalVluchtDetails($vluchtnummer));
-        // Als er geen vluchten worden geretourneerd, maak een foutmelding
-        if (empty($vluchten)) {
-            $foutmelding = "Er is geen vlucht gevonden met het opgegeven vluchtnummer.";
-        }
-    } else {
-        // Als een passagiernummer is meegegeven, haal alleen de vluchten op voor die passagier
-        if ($passagiernummer !== null && $paginaType === 'vluchtenPa') {
-            $vluchten = haalPassagierVluchten($passagiernummer);
-        } else {
-            $vluchten = haalVluchten(null);
-        }
+  if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["vluchtnummer"])) {
+    // CSRF-validatie
+    if (!validateCSRFToken($_POST['csrf_token'])) {
+      die("CSRF-token validatie mislukt");
     }
 
-    // Een array met kolomdefinities voor verschillende pagina types
-    $kolommen = array(
-      'vluchtenMw' => ['Datum', 'Vluchtnummer', 'Luchthaven', 'Gate', 'Detailpagina'],
-      'vluchtenPa' => ['Datum', 'Vluchtnummer', 'Gate', 'Bestemming', 'Maatschappij', 'Bagage'],
-      'vluchtenOv' => ['Datum', 'Vluchtnummer', 'Gate', 'Bestemming', 'Maatschappij'],
-      'vluchtenDt' => ['Datum', 'Vluchtnummer', 'Bestemming', 'Gate', 'Luchthaven', 'Max aantal', 'Maatschappij']
+    $vluchtnummer = $_POST["vluchtnummer"];
+    $vluchten = haalVluchten($vluchtnummer);
+    // Als er geen vluchten worden geretourneerd, maak een foutmelding
+    if (empty($vluchten)) {
+      $foutmelding = "Er zijn geen vluchten gevonden met het opgegeven vluchtnummer.";
+    }
+  } else if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["vluchtnummer"]) && $paginaType === 'vluchtenDt') {
+    // CSRF-validatie
+    if (!validateCSRFToken($_GET['csrf_token'])) {
+      die("CSRF-token validatie mislukt");
+    }
+    
+    $vluchtnummer = $_GET["vluchtnummer"];
+    $vluchten = array(haalVluchtDetails($vluchtnummer));
+    // Als er geen vluchten worden geretourneerd, maak een foutmelding
+    if (empty($vluchten)) {
+      $foutmelding = "Er is geen vlucht gevonden met het opgegeven vluchtnummer.";
+    }
+} else {
+    // Als een passagiernummer is meegegeven, haal alleen de vluchten op voor die passagier
+    if ($passagiernummer !== null && $paginaType === 'vluchtenPa') {
+      $vluchten = haalPassagierVluchten($passagiernummer);
+    } else {
+      $vluchten = haalVluchten(null);
+    }
+}
+
+  // Een array met kolomdefinities voor verschillende pagina types
+  $kolommen = array(
+    'vluchtenMw' => ['Datum', 'Vluchtnummer', 'Luchthaven', 'Gate', 'Detailpagina'],
+    'vluchtenPa' => ['Datum', 'Vluchtnummer', 'Gate', 'Bestemming', 'Maatschappij', 'Bagage'],
+    'vluchtenOv' => ['Datum', 'Vluchtnummer', 'Gate', 'Bestemming', 'Maatschappij'],
+    'vluchtenDt' => ['Datum', 'Vluchtnummer', 'Bestemming', 'Gate', 'Luchthaven', 'Max aantal', 'Maatschappij']
   );
 
-    $kolomDefinities = $kolommen[$paginaType] ?? null; // Zorg voor een standaardwaarde als de sleutel niet bestaat
+  $kolomDefinities = $kolommen[$paginaType] ?? null; // Zorg voor een standaardwaarde als de sleutel niet bestaat
 
-    return array($vluchten, $kolomDefinities, $foutmelding);
+  return array($vluchten, $kolomDefinities, $foutmelding);
 }
+
 ?>

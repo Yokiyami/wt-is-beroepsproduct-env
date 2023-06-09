@@ -1,16 +1,6 @@
 <?php
 require_once './database/checkinquerie.php';
-
-// Functie om data te ontsmetten
-function ontsmet($data) {
-    if($data === null) {
-        return null;
-    }
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
+include_once './php/ontsmet.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {

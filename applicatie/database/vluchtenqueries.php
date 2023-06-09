@@ -1,9 +1,21 @@
 <?php
 require_once './database/db_connectie.php';
+include_once './php/veiligheid.php';
 
 function haalVluchten($vluchtnummer = null, $offset = 0, $limiet = 10)
 {
     global $verbinding;
+
+    // Verkrijg de sorteerparameter uit het GET-verzoek
+    $sorteerOp = ontsmet($_GET['sorteerOp'] ?? 'Vluchtnummer');
+
+    // Toegestane kolommen voor sortering
+    $toegestaneSorteerKolommen = ['Vluchtnummer', 'Vertrektijd', 'Luchthavencode'];
+
+    // Controleer of de sorteerparameter geldig is
+    if (!in_array($sorteerOp, $toegestaneSorteerKolommen)) {
+        throw new InvalidArgumentException('Ongeldige sorteerparameter');
+    }
 
     if ($vluchtnummer !== null) {
         $sql = "SELECT TOP 1 Vlucht.vluchtnummer AS Vluchtnummer, Vlucht.vertrektijd AS Datum, Vlucht.gatecode AS Gate, Vlucht.bestemming AS Bestemming, 
@@ -18,7 +30,7 @@ function haalVluchten($vluchtnummer = null, $offset = 0, $limiet = 10)
         Vlucht.maatschappijcode AS Maatschappij, Vlucht.max_aantal AS 'Max aantal', Luchthaven.luchthavencode AS Luchthaven
         FROM Vlucht 
         LEFT JOIN Luchthaven ON Vlucht.bestemming = Luchthaven.luchthavencode
-        ORDER BY Vlucht.vluchtnummer
+        ORDER BY $sorteerOp
         OFFSET :offset ROWS FETCH NEXT :limiet ROWS ONLY";
         $stmt = $verbinding->prepare($sql);
         $stmt->bindValue(':offset', intval($offset), PDO::PARAM_INT);
@@ -66,4 +78,5 @@ function haalVluchtDetails($vluchtnummer)
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
 ?>
