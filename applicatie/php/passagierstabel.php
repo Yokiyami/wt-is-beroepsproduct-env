@@ -2,39 +2,16 @@
 
 require_once './database/passagierqueries.php';
 
-///////////////////////////////////////////////////////////////////////////PASSAGIERSTABEL////////////////////////////////////////////////////////////////////////////////////
-// Functie om vooraf gedefinieerde passagiers op te halen
-// function haalPassagiers($passagiernummer = null)
-// {
-//     $passagiers = array(
-//         "PAS001" => array(
-//             "naam" => "Jan Jansen",
-//             "geslacht" => "Man",
-//             "passagiernummer" => "PAS001",
-//             "stoel" => "12A",
-//             "checkinpagina" => "medewerker-checkin.php"
-//         ),
-//         "PAS002" => array(
-//             "naam" => "Petra Pietersen",
-//             "geslacht" => "Vrouw",
-//             "passagiernummer" => "PAS002",
-//             "stoel" => "12B",
-//             "checkinpagina" => "medewerker-checkin.php"
-//         ),
-//         // ...
-//     );
-
-    // // Als er een passagiernummer is opgegeven, retourneer alleen die passagier, een lege array bij niet bestaande passagier.
-    // if ($passagiernummer !== null) {
-    //     if (isset($passagiers[$passagiernummer])) {
-    //         $passagiers = array($passagiernummer => $passagiers[$passagiernummer]);
-    //     } else {
-    //         // Als het passagiernummer niet in de array bestaat, retourneer een lege array
-    //         $passagiers = array();
-    //     }
-    // }
-
-    // return $passagiers;
+// Functie om data te ontsmetten
+function ontsmet($data) {
+    if($data === null) {
+        return null;
+    }
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 
 // Functie om een HTML tabel te genereren uit de gegeven passagiers data
 function genereerPassagierTabel($passagiers)
@@ -53,12 +30,14 @@ function genereerPassagierTabel($passagiers)
     foreach ($passagiers as $passagier) {
         $html .= '<tr>';
         foreach ($kolommen as $kolom) {
-            if ($kolom == 'checkinpagina') {
-                $html .= '<td data-label="checkinpagina"><a href="medewerker-checkin.php"><button>Check-in</button></a></td>';
-            } else {
-                $html .= '<td data-label="' . $kolom . '">' . $passagier[$kolom] . '</td>';
+            if($kolom != 'checkinpagina') {
+                if (array_key_exists($kolom, $passagier)) {
+                    $waarde = ontsmet($passagier[$kolom]);
+                    $html .= '<td data-label="' . $kolom . '">' . $waarde . '</td>';
+                }
             }
         }
+        $html .= '<td data-label="checkinpagina"><a href="medewerker-checkin.php"><button>Check-in</button></a></td>';
         $html .= '</tr>';
     }
 
@@ -67,20 +46,36 @@ function genereerPassagierTabel($passagiers)
     return $html;
 }
 
+// Maakt een pager
+function genereerPager($url, $start, $pagesize) {
+    $pageback = $start - $pagesize;
+    $pageback = $pageback < 0 ? 0 : $pageback;
+    $totalrows = getAantalPassagiers()[0]["count"]; // let op de gewijzigde index
+
+    $pagefw = $start + $pagesize;
+    $pagefw = $pagefw > $totalrows ? $start : $pagefw;
+
+    $result = "<div class='button-container'><a href='$url?pagesize=$pagesize&start=$pageback'><button type='button'>Previous</button></a><a href='$url?pagesize=$pagesize&start=$pagefw'><button type='button'>Next</button></a></div>";
+    return $result;
+}
+
 // Functie om passagiers data op te halen op basis van de gegeven POST request
 function vulPassagiers()
 {
+    $pagesize = 10;
+    $start = isset($_GET['start']) ? intval(ontsmet($_GET['start'])) : 0;
     $passagiers = array();
     $foutmelding = null;
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["passagiernummer"])) {
-        $passagiers = haalPassagiers($_POST["passagiernummer"]);
+        $passagiernummer = ontsmet($_POST["passagiernummer"]);
+        $passagiers = haalPassagiers($passagiernummer);
         // Als er geen passagiers worden geretourneerd, maak een foutmelding
         if (empty($passagiers)) {
             $foutmelding = "Er zijn geen passagiers gevonden met het opgegeven passagiernummer.";
         }
     } else {
-        $passagiers = haalPassagiers(null);
+        $passagiers = haalPassagiers(null, $start, $pagesize);
     }
 
     return array($passagiers, $foutmelding);

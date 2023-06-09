@@ -16,21 +16,6 @@ require_once './php/registratie-logica.php';
         </div>
 
         <div class="form-field">
-            <label for="firstname">Voornaam</label><br>
-            <input required type="text" name="firstname" id="firstname" />
-        </div>
-
-        <div class="form-field">
-            <label for="lastname">Achternaam</label><br>
-            <input required type="text" name="lastname" id="lastname" />
-        </div>
-
-        <div class="form-field">
-            <label for="email">Email</label><br>
-            <input required type="email" name="email" id="email" />
-        </div>
-
-        <div class="form-field">
             <label for="pass">Wachtwoord</label><br>
             <input required type="pass" name="pass" id="pass" />
         </div>

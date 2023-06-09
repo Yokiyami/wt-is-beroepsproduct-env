@@ -9,71 +9,22 @@ if (isset($_GET['vluchtnummer'])) {
   $vluchtnummer = null;
 }
 
-list($vluchten, $kolommen) = haalVluchten($vluchtnummer, $paginaType ?? null);
+if (!isset($_GET['pagina'])) {
+  $pagina = 1;
+} else {
+  $pagina = $_GET['pagina'];
+}
+
+$vluchten_per_pagina = 10;
+$offset = ($pagina - 1) * $vluchten_per_pagina;
+
+list($vluchten) = haalVluchten($vluchtnummer, $offset, $vluchten_per_pagina);
 
 if (isset($vluchten[$vluchtnummer])) {
   $vlucht = reset($vluchten);
 } else {
   $vlucht = null;
 }
-
-/////////////////////////////////////////////////////////////////////////////VLUCHTENTABEL/////////////////////////////////////////////////////////////////////////////////
-// Functie om vooraf gedefinieerde vluchten op te halen
-// function haalVluchten($vluchtnummer = null, $paginaType = null)
-// {
-//   $vluchten = array(
-//     "KL124" => array(
-//       "datum" => "01-05-2023 09:00",
-//       "vluchtnummer" => "KL124",
-//       "luchthaven" => "Schiphol",
-//       "gate" => "A1",
-//       "detailpagina" => "medewerker-vluchtdetails.php?vluchtnummer=" . $vluchtnummer,
-//       "bestemming" => "Madrid",
-//       "maatschappij" => "KLM",
-//       "bagage" => "25kg"
-//     ),
-//     "KL125" => array(
-//       "datum" => "02-05-2023 09:00",
-//       "vluchtnummer" => "KL125",
-//       "luchthaven" => "Schiphol",
-//       "gate" => "A1",
-//       "detailpagina" => "medewerker-vluchtdetails.php?vluchtnummer=" . $vluchtnummer,
-//       "bestemming" => "Madrid",
-//       "maatschappij" => "KLM",
-//       "bagage" => "25kg"
-//     ),
-//     "KL126" => array(
-//       "datum" => "03-05-2023 09:00",
-//       "vluchtnummer" => "KL126",
-//       "luchthaven" => "Schiphol",
-//       "gate" => "A1",
-//       "detailpagina" => "medewerker-vluchtdetails.php?vluchtnummer=" . $vluchtnummer,
-//       "bestemming" => "Madrid",
-//       "maatschappij" => "KLM",
-//       "bagage" => "25kg"
-//     ),
-//   );
-
-//   // Als er een vluchtnummer is opgegeven, retourneer alleen die vlucht, een lege array bij niet bestaande vlucht.
-//   if ($vluchtnummer !== null) {
-//     if (isset($vluchten[$vluchtnummer])) {
-//       $vluchten = array($vluchtnummer => $vluchten[$vluchtnummer]);
-//     } else {
-//       // Als het vluchtnummer niet in de array bestaat, retourneer een lege array
-//       $vluchten = array();
-//     }
-//   }
-
-// // Een array met kolomdefinities voor verschillende pagina types
-// $kolommen = array(
-//   'vluchtenMw' => ['datum', 'vluchtnummer', 'luchthaven', 'gate', 'detailpagina'],
-//   'vluchtenPa' => ['datum', 'vluchtnummer', 'gate', 'bestemming', 'maatschappij', 'bagage'],
-//   'vluchtenOv' => ['datum', 'vluchtnummer', 'gate', 'bestemming', 'maatschappij']
-// );
-
-// $kolomDefinities = $kolommen[$paginaType] ?? null; // Zorg voor een standaard waarde als de sleutel niet bestaat
-
-// return array($vluchten, $kolomDefinities);
 
 // Functie om een HTML tabel te genereren uit de gegeven vluchten data en kolommen
 function genereerTabel($vluchten, $kolommen)
@@ -114,6 +65,7 @@ function vulVluchten($paginaType = null)
     $vluchten = array();
     $kolommen = array();
     $foutmelding = null;
+    $passagiernummer = $_SESSION['username'] ?? 0;
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["vluchtnummer"])) {
         $vluchtnummer = $_POST["vluchtnummer"];
@@ -122,17 +74,29 @@ function vulVluchten($paginaType = null)
         if (empty($vluchten)) {
             $foutmelding = "Er zijn geen vluchten gevonden met het opgegeven vluchtnummer.";
         }
+    } else if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["vluchtnummer"]) && $paginaType === 'vluchtenDt') {
+        $vluchtnummer = $_GET["vluchtnummer"];
+        $vluchten = array(haalVluchtDetails($vluchtnummer));
+        // Als er geen vluchten worden geretourneerd, maak een foutmelding
+        if (empty($vluchten)) {
+            $foutmelding = "Er is geen vlucht gevonden met het opgegeven vluchtnummer.";
+        }
     } else {
-        $vluchten = haalVluchten(null);
+        // Als een passagiernummer is meegegeven, haal alleen de vluchten op voor die passagier
+        if ($passagiernummer !== null && $paginaType === 'vluchtenPa') {
+            $vluchten = haalPassagierVluchten($passagiernummer);
+        } else {
+            $vluchten = haalVluchten(null);
+        }
     }
 
     // Een array met kolomdefinities voor verschillende pagina types
     $kolommen = array(
-        'vluchtenMw' => ['Datum', 'Vluchtnummer', 'Luchthaven', 'Gate', 'Detailpagina'],
-        'vluchtenPa' => ['Datum', 'Vluchtnummer', 'Gate', 'Bestemming', 'Maatschappij', 'Bagage'],
-        'vluchtenOv' => ['Datum', 'Vluchtnummer', 'Gate', 'Bestemming', 'Maatschappij'],
-        'vluchtenDt' => ['Bestemming', 'Gate', 'Luchthaven', 'Max aantal', 'Datum', 'Maatschappij']
-    );
+      'vluchtenMw' => ['Datum', 'Vluchtnummer', 'Luchthaven', 'Gate', 'Detailpagina'],
+      'vluchtenPa' => ['Datum', 'Vluchtnummer', 'Gate', 'Bestemming', 'Maatschappij', 'Bagage'],
+      'vluchtenOv' => ['Datum', 'Vluchtnummer', 'Gate', 'Bestemming', 'Maatschappij'],
+      'vluchtenDt' => ['Datum', 'Vluchtnummer', 'Bestemming', 'Gate', 'Luchthaven', 'Max aantal', 'Maatschappij']
+  );
 
     $kolomDefinities = $kolommen[$paginaType] ?? null; // Zorg voor een standaardwaarde als de sleutel niet bestaat
 

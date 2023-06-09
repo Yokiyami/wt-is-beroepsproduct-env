@@ -19,4 +19,11 @@ function haalPassagiers($passagiernummer = null, $offset = 0, $limiet = 10)
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getAantalPassagiers() {
+    global $verbinding;
+    $stmt = $verbinding->query("SELECT count(*) as count FROM Passagier");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 ?>

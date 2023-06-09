@@ -20,30 +20,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $passagier = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($passagier) {
-        // Het passagiernummer bestaat, genereer de gebruikersnaam en voeg de gebruiker toe aan de Users-tabel
-        $username = 'P' . $passagiernummer; // Voeg een voorvoegsel toe aan het passagiernummer
+        // Controleer of de gebruiker al bestaat in de Users-tabel
+        $sql = "SELECT * FROM Users WHERE username = :username";
+        $stmt = $verbinding->prepare($sql);
+        $stmt->execute([':username' => $passagiernummer]);
+        $bestaandeGebruiker = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // De SQL query met placeholders (:username, :password)
-        $sql = "INSERT INTO Users (username, password) VALUES (:username, :password)";
+        if ($bestaandeGebruiker) {
+            echo "User already registered";
+        } else {
+            // De gebruiker bestaat nog niet, voeg hem toe aan de Users-tabel
+            $username = $passagiernummer;
 
-        try {
-            // Maak de verbinding en bereid de query voor
-            $verbinding = maakVerbinding();
-            $stmt = $verbinding->prepare($sql);
+            // De SQL query met placeholders (:username, :password)
+            $sql = "INSERT INTO Users (username, password) VALUES (:username, :password)";
 
-            // Bind de waarden aan de placeholders en voer de query uit
-            $stmt->execute([':username' => $username, ':password' => $passwordHash]);
+            try {
+                // Maak de verbinding en bereid de query voor
+                $stmt = $verbinding->prepare($sql);
 
-            echo "User successfully registered";
-        } catch (PDOException $e) {
-            echo $sql . "<br>" . $e->getMessage();
-        } finally {
-            // Sluit de verbinding, ongeacht of er een fout optreedt
-            $verbinding = null;
+                // Bind de waarden aan de placeholders en voer de query uit
+                $stmt->execute([':username' => $username, ':password' => $passwordHash]);
+
+                echo "User successfully registered";
+            } catch (PDOException $e) {
+                echo $sql . "<br>" . $e->getMessage();
+            } finally {
+                // Sluit de verbinding, ongeacht of er een fout optreedt
+                $verbinding = null;
+            }
         }
     } else {
         echo "Invalid passagiernummer";
     }
 }
-?>
 
+?>

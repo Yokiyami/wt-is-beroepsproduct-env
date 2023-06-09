@@ -1,17 +1,23 @@
 <?php
-require_once './database/db_connectie.php';
-
 if (!isset($_SESSION)) {
     session_start();
 }
 
-function login() {
+require_once './database/db_connectie.php';
+
+//CSRF token
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+function login()
+{
     $logged_in = false;
     $html = '';
     $redirect = '';
 
     if (isset($_SESSION['username'])) {
-        $html = "<h1>Welcome {$_SESSION['username']}</h1>";
+        $html = "<h1>Welcome " . htmlspecialchars($_SESSION['username']) . "</h1>"; // XSS preventie
         $logged_in = true;
         $redirect = 'passagier-vluchtenoverzicht.php';
     }
@@ -19,13 +25,15 @@ function login() {
     return [$logged_in, $html, $redirect];
 }
 
-function loginFunctie($logged_in) {
+function loginFunctie($logged_in)
+{
     if ($logged_in) {
         require_once 'passagier-vluchtenoverzicht.php';
     }
 }
 
-function verifyUser($username, $password) {
+function verifyUser($username, $password)
+{
     $verbinding = maakVerbinding();
     $sql = "SELECT * FROM Users WHERE username = :username";
     $stmt = $verbinding->prepare($sql);
@@ -43,6 +51,11 @@ function verifyUser($username, $password) {
 
 // Zorgt ervoor dat de pagina alleen wordt verwerkt bij een POST-verzoek
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // CSRF preventie
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die('Invalid CSRF token');
+    }
+
     if (isset($_POST['passagiernummer']) && isset($_POST['password'])) {
         $passagiernummer = $_POST['passagiernummer'];
         $password = $_POST['password'];
@@ -59,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "SELECT username FROM Users WHERE username = :username";
         $stmt = $verbinding->prepare($sql);
 
-        $stmt->execute([':username' => 'P' . $passagiernummer]);
+        $stmt->execute([':username' => $passagiernummer]);
         $username = $stmt->fetchColumn();
 
         if (verifyUser($username, $password)) {
