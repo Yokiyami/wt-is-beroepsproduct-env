@@ -8,7 +8,7 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-//Vluchtdetails ophalen
+// Vluchtdetails ophalen
 if (isset($_GET['vluchtnummer'])) {
   $vluchtnummer = $_GET['vluchtnummer'];
 } else {
@@ -27,7 +27,7 @@ $sorteerOp = ontsmet($_GET['sorteerOp'] ?? 'vluchtnummer');
 $vluchten_per_pagina = 10;
 $offset = ($pagina - 1) * $vluchten_per_pagina;
 
-list($vluchten) = haalVluchten($vluchtnummer, $offset, $vluchten_per_pagina, $sorteerOp);
+list($vluchten) = haalVluchten($vluchtnummer, $offset, $vluchten_per_pagina);
 
 if (isset($vluchten[$vluchtnummer])) {
   $vlucht = reset($vluchten);
@@ -89,37 +89,24 @@ function vulVluchten($paginaType = null)
   $passagiernummer = $_SESSION['username'] ?? 0;
 
   if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["vluchtnummer"])) {
-    // CSRF-validatie
-    if (!validateCSRFToken($_POST['csrf_token'])) {
-      die("CSRF-token validatie mislukt");
-    }
-
-    $vluchtnummer = $_POST["vluchtnummer"];
+    $vluchtnummer = ontsmet($_POST["vluchtnummer"]);
     $vluchten = haalVluchten($vluchtnummer);
     // Als er geen vluchten worden geretourneerd, maak een foutmelding
     if (empty($vluchten)) {
       $foutmelding = "Er zijn geen vluchten gevonden met het opgegeven vluchtnummer.";
     }
-  } else if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["vluchtnummer"]) && $paginaType === 'vluchtenDt') {
-    // CSRF-validatie
-    if (!validateCSRFToken($_GET['csrf_token'])) {
-      die("CSRF-token validatie mislukt");
-    }
-    
-    $vluchtnummer = $_GET["vluchtnummer"];
-    $vluchten = array(haalVluchtDetails($vluchtnummer));
-    // Als er geen vluchten worden geretourneerd, maak een foutmelding
-    if (empty($vluchten)) {
-      $foutmelding = "Er is geen vlucht gevonden met het opgegeven vluchtnummer.";
-    }
-} else {
+  } else {
     // Als een passagiernummer is meegegeven, haal alleen de vluchten op voor die passagier
     if ($passagiernummer !== null && $paginaType === 'vluchtenPa') {
       $vluchten = haalPassagierVluchten($passagiernummer);
+    } else if ($paginaType === 'vluchtenDt') {
+      // Haal alleen de specifieke vlucht op als de paginaType 'vluchtenDt' is
+      $vluchtnummer = ontsmet($_GET["vluchtnummer"]);
+      $vluchten = array(haalVluchtDetails($vluchtnummer));
     } else {
       $vluchten = haalVluchten(null);
     }
-}
+  }
 
   // Een array met kolomdefinities voor verschillende pagina types
   $kolommen = array(

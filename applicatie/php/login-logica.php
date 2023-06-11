@@ -5,10 +5,10 @@ if (!isset($_SESSION)) {
 
 require_once './database/db_connectie.php';
 include_once './php/veiligheid.php';
+require_once './database/login-sql.php';
 
-// CSRFtoken
+// CSRF-token
 $csrf_token = generateCSRFToken();
-
 
 function login()
 {
@@ -32,23 +32,6 @@ function loginFunctie($logged_in)
     }
 }
 
-function verifyUser($username, $password)
-{
-    $verbinding = maakVerbinding();
-    $sql = "SELECT * FROM Users WHERE username = :username";
-    $stmt = $verbinding->prepare($sql);
-
-    $stmt->execute([':username' => $username]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['username'] = $user['username'];
-        return true;
-    }
-
-    return false;
-}
-
 // Zorgt ervoor dat de pagina alleen wordt verwerkt bij een POST-verzoek
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // CSRF-validatie
@@ -68,12 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Haal de gebruikersnaam op basis van het passagiernummer
-        $verbinding = maakVerbinding();
-        $sql = "SELECT username FROM Users WHERE username = :username";
-        $stmt = $verbinding->prepare($sql);
-
-        $stmt->execute([':username' => $passagiernummer]);
-        $username = $stmt->fetchColumn();
+        $username = getPassengerUsername($passagiernummer);
 
         if (verifyUser($username, $password)) {
             // Gebruiker is ingelogd, redirect naar de juiste pagina
@@ -83,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Fout wachtwoord en/of passagiernummer";
         }
     } else {
-        echo "Voer je passagiernummer(of medewerkeraccount) en wachtwoord in.";
+        echo "Voer je passagiernummer (of medewerkeraccount) en wachtwoord in.";
     }
 }
 ?>

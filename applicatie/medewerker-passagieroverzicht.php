@@ -16,7 +16,6 @@ $url = "./medewerker-passagieroverzicht.php";
         <input type="submit" value="Zoeken" />
     </form>
     <div class="toevoeg-button">
-        <!-- <input type="submit" value="Nieuwe passagier" /> -->
         <a href="medewerker-passagierinvoer.php"><button>Nieuwe passagier</button></a>
     </div>
 </div>

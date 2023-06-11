@@ -1,6 +1,10 @@
 <?php
 include_once 'header.php';
 include './php/login-logica.php';
+include_once './php/veiligheid.php';
+
+// CSRFtoken
+$csrf_token = generateCSRFToken();
 
 // Controleer of de gebruiker is ingelogd en toon de juiste inhoud
 list($logged_in, $html, $redirect) = login();

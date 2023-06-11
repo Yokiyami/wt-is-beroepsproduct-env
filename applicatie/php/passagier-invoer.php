@@ -1,10 +1,9 @@
 <?php
 
-require_once './database/db_connectie.php'; 
+require_once './database/db_connectie.php';
+require_once './database/passagier-invoer-sql.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["naam"]) && isset($_POST["passagiernummer"]) && isset($_POST["vluchtnummer"]) && isset($_POST["stoel"]) && isset($_POST["geslacht"])) {
-
-    global $verbinding;
 
     $naam = $_POST["naam"];
     $passagiernummer = $_POST["passagiernummer"];
@@ -12,28 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["naam"]) && isset($_POS
     $geslacht = $_POST["geslacht"];
     $vluchtnummer = $_POST["vluchtnummer"];
 
-    // Maak een prepared statement
-    $stmt = $verbinding->prepare("INSERT INTO Passagier (naam, passagiernummer, vluchtnummer, stoel, geslacht) VALUES (:naam, :passagiernummer, :vluchtnummer, :stoel, :geslacht)");
-
-    // Bind de variabelen aan de parameters
-    $stmt->bindValue(':naam', $naam);
-    $stmt->bindValue(':passagiernummer', $passagiernummer);
-    $stmt->bindValue(':vluchtnummer', $vluchtnummer);
-    $stmt->bindValue(':stoel', $stoelnummer);
-    $stmt->bindValue(':geslacht', $geslacht);
-
-    // Voer de statement uit
-    if ($stmt->execute()) {
+    if (insertPassenger($naam, $passagiernummer, $vluchtnummer, $stoelnummer, $geslacht)) {
         echo "Nieuwe record succesvol toegevoegd.";
     } else {
-        echo "Fout: " . implode(":", $stmt->errorInfo());
+        echo "Fout bij het toevoegen van het nieuwe record.";
     }
-
-    // Sluit de statement
-    $stmt = null;
 }
-
-// Sluit de database connectie
-$verbinding = null;
-
 ?>

@@ -1,6 +1,6 @@
 <?php
 require_once './database/checkinquerie.php';
-include_once './php/ontsmet.php';
+include_once './php/veiligheid.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {

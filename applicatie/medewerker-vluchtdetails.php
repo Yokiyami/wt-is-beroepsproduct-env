@@ -1,9 +1,8 @@
 <?php
-
 include_once 'header.php';
 include_once 'php/vluchtentabel.php';
 
-// CSRFtoken
+// CSRF-token
 $csrf_token = generateCSRFToken();
 
 // var_dump($vluchten);
@@ -26,6 +25,6 @@ list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenDt');
 
 <?php
 
-include_once 'footer.php'
+include_once 'footer.php';
 
     ?>

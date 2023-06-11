@@ -46,10 +46,15 @@ function haalPassagierVluchten($passagiernummer, $offset = 0, $limiet = 10)
     global $verbinding;
 
     $sql = "SELECT Vlucht.vluchtnummer AS Vluchtnummer, Vlucht.vertrektijd AS Datum, Vlucht.gatecode AS Gate, Vlucht.bestemming AS Bestemming, 
-    Vlucht.maatschappijcode AS Maatschappij, Vlucht.max_aantal AS 'Max aantal', Luchthaven.luchthavencode AS Luchthaven, BagageObject.gewicht AS Bagage
+    Vlucht.maatschappijcode AS Maatschappij, Vlucht.max_aantal AS 'Max aantal', Luchthaven.luchthavencode AS Luchthaven, subquery.Bagage AS Bagage
     FROM Vlucht 
     INNER JOIN Passagier ON Vlucht.vluchtnummer = Passagier.vluchtnummer
-    INNER JOIN BagageObject ON BagageObject.passagiernummer = Passagier.passagiernummer
+    INNER JOIN (
+        SELECT Passagier.passagiernummer, Passagier.vluchtnummer, MAX(BagageObject.gewicht) AS Bagage
+        FROM Passagier
+        INNER JOIN BagageObject ON Passagier.passagiernummer = BagageObject.passagiernummer
+        GROUP BY Passagier.passagiernummer, Passagier.vluchtnummer
+    ) AS subquery ON Passagier.passagiernummer = subquery.passagiernummer AND Vlucht.vluchtnummer = subquery.vluchtnummer
     LEFT JOIN Luchthaven ON Vlucht.bestemming = Luchthaven.luchthavencode
     WHERE Passagier.passagiernummer = :passagiernummer
     ORDER BY Vlucht.vluchtnummer
@@ -62,6 +67,7 @@ function haalPassagierVluchten($passagiernummer, $offset = 0, $limiet = 10)
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 function haalVluchtDetails($vluchtnummer)
 {
