@@ -50,7 +50,7 @@ function genereerPassagierTabel($passagiers)
 function genereerPager($url, $start, $pagesize) {
     $pageback = $start - $pagesize;
     $pageback = $pageback < 0 ? 0 : $pageback;
-    $totalrows = getAantalPassagiers()[0]["count"]; // let op de gewijzigde index
+    $totalrows = getAantalPassagiers()[0]["count"];
 
     $pagefw = $start + $pagesize;
     $pagefw = $pagefw > $totalrows ? $start : $pagefw;
