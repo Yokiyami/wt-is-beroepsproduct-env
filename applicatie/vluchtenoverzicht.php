@@ -5,7 +5,11 @@ include_once 'php/vluchtentabel.php';
 // CSRFtoken
 $csrf_token = generateCSRFToken();
 
-list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenOv');
+$pagesize = 10;
+$start = isset($_GET['start']) ? intval($_GET['start']) : 0;
+$url = "./vluchtenoverzicht.php";
+
+list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenOv', $start, $pagesize);
 
 ?>
 
@@ -19,6 +23,7 @@ list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenOv');
 <div class="tabel-container">
     <?php
     echo genereerTabel($vluchten, $kolommen, 'vluchtentabel.php');
+    echo genereerPager($url, $start, $pagesize);
     if ($foutmelding !== null) {
         echo "<p>{$foutmelding}</p>";
     }

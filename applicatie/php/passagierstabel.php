@@ -55,7 +55,7 @@ function genereerPager($url, $start, $pagesize) {
     $pagefw = $start + $pagesize;
     $pagefw = $pagefw > $totalrows ? $start : $pagefw;
 
-    $result = "<div class='button-container'><a href='$url?pagesize=$pagesize&start=$pageback'><button type='button'>Previous</button></a><a href='$url?pagesize=$pagesize&start=$pagefw'><button type='button'>Next</button></a></div>";
+    $result = "<div class='button-container'><a href='$url?pagesize=$pagesize&start=$pageback'><button type='button'>Vorige</button></a><a href='$url?pagesize=$pagesize&start=$pagefw'><button type='button'>Volgende</button></a></div>";
     return $result;
 }
 

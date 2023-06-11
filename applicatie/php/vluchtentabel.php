@@ -3,38 +3,6 @@
 require_once './database/vluchtenqueries.php';
 include_once './php/veiligheid.php';
 
-// Start de sessie
-if (!isset($_SESSION)) {
-  session_start();
-}
-
-// Vluchtdetails ophalen
-if (isset($_GET['vluchtnummer'])) {
-  $vluchtnummer = $_GET['vluchtnummer'];
-} else {
-  $vluchtnummer = null;
-}
-
-if (!isset($_GET['pagina'])) {
-  $pagina = 1;
-} else {
-  $pagina = $_GET['pagina'];
-}
-
-// Sorteerparameter ophalen uit de link
-$sorteerOp = ontsmet($_GET['sorteerOp'] ?? 'vluchtnummer');
-
-$vluchten_per_pagina = 10;
-$offset = ($pagina - 1) * $vluchten_per_pagina;
-
-list($vluchten) = haalVluchten($vluchtnummer, $offset, $vluchten_per_pagina);
-
-if (isset($vluchten[$vluchtnummer])) {
-  $vlucht = reset($vluchten);
-} else {
-  $vlucht = null;
-}
-
 // Functie om een HTML tabel te genereren uit de gegeven vluchten data en kolommen
 function genereerTabel($vluchten, $kolommen, $paginaType)
 {
@@ -79,7 +47,7 @@ function genereerTabel($vluchten, $kolommen, $paginaType)
 }
 
 // Functie om vluchten data op te halen op basis van de gegeven pagina type en POST request
-function vulVluchten($paginaType = null)
+function vulVluchten($paginaType = null, $start = 0, $pagesize = 10)
 {
   global $verbinding;
 
@@ -90,22 +58,18 @@ function vulVluchten($paginaType = null)
 
   if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["vluchtnummer"])) {
     $vluchtnummer = ontsmet($_POST["vluchtnummer"]);
-    $vluchten = haalVluchten($vluchtnummer);
-    // Als er geen vluchten worden geretourneerd, maak een foutmelding
-    if (empty($vluchten)) {
-      $foutmelding = "Er zijn geen vluchten gevonden met het opgegeven vluchtnummer.";
-    }
+    $start = 0; // Bijwerken van het startpunt als vluchtnummer is ingesteld
   } else {
-    // Als een passagiernummer is meegegeven, haal alleen de vluchten op voor die passagier
-    if ($passagiernummer !== null && $paginaType === 'vluchtenPa') {
-      $vluchten = haalPassagierVluchten($passagiernummer);
-    } else if ($paginaType === 'vluchtenDt') {
-      // Haal alleen de specifieke vlucht op als de paginaType 'vluchtenDt' is
-      $vluchtnummer = ontsmet($_GET["vluchtnummer"]);
-      $vluchten = array(haalVluchtDetails($vluchtnummer));
-    } else {
-      $vluchten = haalVluchten(null);
-    }
+    $vluchtnummer = null;
+  }
+
+  if ($passagiernummer !== null && $paginaType === 'vluchtenPa') {
+    $vluchten = haalPassagierVluchten($passagiernummer, $start, $pagesize);
+  } else if ($paginaType === 'vluchtenDt') {
+    $vluchtnummer = ontsmet($_GET["vluchtnummer"]);
+    $vluchten = array(haalVluchtDetails($vluchtnummer));
+  } else {
+    $vluchten = haalVluchten($vluchtnummer, $start, $pagesize);
   }
 
   // Een array met kolomdefinities voor verschillende pagina types
@@ -119,6 +83,19 @@ function vulVluchten($paginaType = null)
   $kolomDefinities = $kolommen[$paginaType] ?? null; // Zorg voor een standaardwaarde als de sleutel niet bestaat
 
   return array($vluchten, $kolomDefinities, $foutmelding);
+}
+
+// Maakt een pager
+function genereerPager($url, $start, $pagesize) {
+  $pageback = $start - $pagesize;
+  $pageback = $pageback < 0 ? 0 : $pageback;
+  $totalrows = getAantalVluchten()[0]["count"];
+
+  $pagefw = $start + $pagesize;
+  $pagefw = $pagefw > $totalrows ? $start : $pagefw;
+
+  $result = "<div class='button-container'><a href='$url?pagesize=$pagesize&start=$pageback'><button type='button'>Vorige</button></a><a href='$url?pagesize=$pagesize&start=$pagefw'><button type='button'>Volgende</button></a></div>";
+  return $result;
 }
 
 ?>

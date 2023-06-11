@@ -85,4 +85,10 @@ function haalVluchtDetails($vluchtnummer)
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+function getAantalVluchten() {
+    global $verbinding;
+    $stmt = $verbinding->query("SELECT COUNT(*) AS count FROM Vlucht");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 ?>

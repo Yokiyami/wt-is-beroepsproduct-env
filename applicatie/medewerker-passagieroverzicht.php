@@ -2,10 +2,12 @@
 include_once 'header.php';
 include_once './php/passagierstabel.php';
 
-list($passagiers, $foutmelding) = vulPassagiers();
 $pagesize = 10;
 $start = isset($_GET['start']) ? intval($_GET['start']) : 0;
 $url = "./medewerker-passagieroverzicht.php";
+
+list($passagiers, $foutmelding) = vulPassagiers();
+
 
 ?>
 
