@@ -2,12 +2,16 @@
 
 include_once 'header.php';
 require_once './php/vlucht-invoer.php';
+require_once './php/veiligheid.php';
 
-  ?>
+$csrf_token = generateCSRFToken();
+
+?>
 
 <div class="formuliervenster">
   <h2>Vluchtgegevens</h2>
   <form action="medewerker-vluchtinvoer.php" method="POST">
+    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
     <div class="form-rij">
       <label for="vluchtnummer">Vluchtnummer:</label>
       <input type="text" id="vluchtnummer" name="vluchtnummer" required>
@@ -25,6 +29,22 @@ require_once './php/vlucht-invoer.php';
         <option value="C">C</option>
         <option value="D">D</option>
         <option value="E">E</option>
+      </select>
+    </div>
+    <div class="form-rij">
+      <label for="balienummer">Balienummer:</label>
+      <select id="balienummer" name="balienummer" required>
+        <option value="">Selecteer balienummer</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
       </select>
     </div>
     <div class="form-rij">
@@ -59,4 +79,4 @@ require_once './php/vlucht-invoer.php';
 
 include_once 'footer.php';
 
-  ?>
+?>

@@ -1,7 +1,16 @@
 <?php
+if (!isset($_SESSION)) {
+  session_start();
+}
 
 require_once './database/vluchtenqueries.php';
 include_once './php/veiligheid.php';
+
+// Genereer een nieuwe CSRF token
+$csrf_token = generateCSRFToken();
+
+// Valideer de CSRF token
+validateCSRFToken($csrf_token);
 
 // Functie om een HTML tabel te genereren uit de gegeven vluchten data en kolommen
 function genereerTabel($vluchten, $kolommen, $paginaType)
@@ -54,11 +63,11 @@ function vulVluchten($paginaType = null, $start = 0, $pagesize = 10)
   $vluchten = array();
   $kolommen = array();
   $foutmelding = null;
-  $passagiernummer = $_SESSION['username'] ?? 0;
+  $passagiernummer = ontsmet($_SESSION['username']) ?? 0;
 
   if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["vluchtnummer"])) {
     $vluchtnummer = ontsmet($_POST["vluchtnummer"]);
-    $start = 0; // Bijwerken van het startpunt als vluchtnummer is ingesteld
+    $start = 0; 
   } else {
     $vluchtnummer = null;
   }
@@ -89,7 +98,7 @@ function vulVluchten($paginaType = null, $start = 0, $pagesize = 10)
 function genereerPager($url, $start, $pagesize) {
   $pageback = $start - $pagesize;
   $pageback = $pageback < 0 ? 0 : $pageback;
-  $totalrows = getAantalVluchten()[0]["count"];
+  $totalrows = ontsmet(getAantalVluchten()[0]["count"]);
 
   $pagefw = $start + $pagesize;
   $pagefw = $pagefw > $totalrows ? $start : $pagefw;

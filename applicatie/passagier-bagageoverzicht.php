@@ -1,7 +1,11 @@
 <?php
 
 include_once 'header.php';
-include_once 'php/bagagetabel.php';
+require_once './php/veiligheid.php';
+include_once './php/bagagetabel.php';
+
+// CSRFtoken
+$csrf_token = generateCSRFToken();
 
 list($bagage, $foutmelding) = vulBagage();
 
@@ -9,7 +13,8 @@ list($bagage, $foutmelding) = vulBagage();
 
 <div class="zoekbalk">
     <form action="./passagier-bagageoverzicht.php" method="POST">
-        <input type="text" name="vluchtnummer" placeholder="Zoek hier op vluchtnummer" />
+    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+        <input type="text" name="vluchtnummer" placeholder="Zoek hier op vluchtnummer" required/>
         <input type="submit" value="Zoeken" />
     </form>
     <div class="toevoeg-button">

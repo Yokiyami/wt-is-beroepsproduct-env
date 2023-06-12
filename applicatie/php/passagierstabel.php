@@ -1,19 +1,9 @@
 <?php
 
 require_once './database/passagierqueries.php';
+include_once './php/veiligheid.php';
 
-// Functie om data te ontsmetten
-function ontsmet($data) {
-    if($data === null) {
-        return null;
-    }
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-// Functie om een HTML tabel te genereren uit de gegeven passagiers data
+// Functie om een HTML tabel te genereren.
 function genereerPassagierTabel($passagiers)
 {
     $kolommen = ['naam', 'geslacht', 'passagiernummer', 'stoel', 'checkinpagina'];
@@ -30,7 +20,7 @@ function genereerPassagierTabel($passagiers)
     foreach ($passagiers as $passagier) {
         $html .= '<tr>';
         foreach ($kolommen as $kolom) {
-            if($kolom != 'checkinpagina') {
+            if ($kolom != 'checkinpagina') {
                 if (array_key_exists($kolom, $passagier)) {
                     $waarde = ontsmet($passagier[$kolom]);
                     $html .= '<td data-label="' . $kolom . '">' . $waarde . '</td>';
@@ -47,10 +37,14 @@ function genereerPassagierTabel($passagiers)
 }
 
 // Maakt een pager
-function genereerPager($url, $start, $pagesize) {
+function genereerPager($url, $start, $pagesize)
+{
+    $url = ontsmet($url);
+    $start = intval(ontsmet($start));
+    $pagesize = intval(ontsmet($pagesize));
     $pageback = $start - $pagesize;
     $pageback = $pageback < 0 ? 0 : $pageback;
-    $totalrows = getAantalPassagiers()[0]["count"];
+    $totalrows = ontsmet(getAantalPassagiers()[0]["count"]);
 
     $pagefw = $start + $pagesize;
     $pagefw = $pagefw > $totalrows ? $start : $pagefw;
@@ -59,20 +53,26 @@ function genereerPager($url, $start, $pagesize) {
     return $result;
 }
 
-// Functie om passagiers data op te halen op basis van de gegeven POST request
 function vulPassagiers()
 {
     $pagesize = 10;
-    $start = isset($_GET['start']) ? intval(ontsmet($_GET['start'])) : 0;
+    $start = ontsmet(isset($_GET['start'])) ? intval(ontsmet($_GET['start'])) : 0;
     $passagiers = array();
     $foutmelding = null;
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["passagiernummer"])) {
-        $passagiernummer = ontsmet($_POST["passagiernummer"]);
-        $passagiers = haalPassagiers($passagiernummer);
-        // Als er geen passagiers worden geretourneerd, maak een foutmelding
-        if (empty($passagiers)) {
-            $foutmelding = "Er zijn geen passagiers gevonden met het opgegeven passagiernummer.";
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        
+        if (isset($_POST["csrf_token"])) {
+            if (isset($_POST["passagiernummer"])) {
+                $passagiernummer = ontsmet($_POST["passagiernummer"]);
+                $passagiers = haalPassagiers(ontsmet($passagiernummer));
+                // Als er geen passagiers worden geretourneerd, maak een foutmelding
+                if (empty($passagiers)) {
+                    $foutmelding = "Er zijn geen passagiers gevonden met het opgegeven passagiernummer.";
+                }
+            }
+        } else {
+            $foutmelding = "Foute of missende CSRF token.";
         }
     } else {
         $passagiers = haalPassagiers(null, $start, $pagesize);

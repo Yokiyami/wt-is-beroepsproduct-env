@@ -2,9 +2,10 @@
 require_once './database/checkinquerie.php';
 include_once './php/veiligheid.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-        die('Invalid CSRF token');
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Valideer de CSRF-token
+    if (!validateCSRFToken($_POST['csrf_token'])) {
+        die("Ongeldige CSRF-token.");
     }
 
     $passagiernummer = ontsmet($_POST['passagiernummer']);
@@ -18,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $objectvolgnummers = array_map('ontsmet', $_POST['objectvolgnummer']);
     $gewichten = array_map('ontsmet', $_POST['gewicht']);
 
-    // Verwijder lege waarden uit de arrays
+    // Verwijder lege waarden uit de arrays, mocht er maar 1 koffer worden ingecheckt.
     $objectvolgnummers = array_filter($objectvolgnummers);
     $gewichten = array_filter($gewichten);
 

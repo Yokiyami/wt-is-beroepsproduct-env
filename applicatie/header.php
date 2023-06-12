@@ -1,4 +1,9 @@
-<?php include './php/login-loguitknop.php';
+<?php
+include './php/login-loguitknop.php';
+require_once './php/veiligheid.php';
+
+// CSRF-token genereren
+$csrf_token = generateCSRFToken();
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +37,7 @@
     </nav>
     <nav class="mobile-nav">
         <form action="php/dropdown-menus.php" method="GET">
+            <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
             <select name="pagina" onchange="this.form.submit()">
                 <option disabled selected>Menu</option>
                 <option value="/index.php">Startpagina</option>
@@ -42,4 +48,3 @@
         </form>
     </nav>
     <div class="main-container">
-    

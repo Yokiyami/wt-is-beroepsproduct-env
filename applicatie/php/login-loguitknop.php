@@ -1,16 +1,23 @@
 <?php
+require_once 'veiligheid.php';
 
 function toonLoginUitlogKnop()
 {
     session_start();
+    
+    $csrf_token = generateCSRFToken();
+    
     if (isset($_SESSION['username'])) {
         // Gebruiker is ingelogd
+        $username = ontsmet($_SESSION['username']);
+        
         echo '
         <form action="./php/logout.php" method="post">
+            <input type="hidden" name="csrf_token" value="'.$csrf_token.'">
             <input type="submit" value="Log uit">
         </form>';
 
-        if ($_SESSION['username'] === 'GelreMedewerker2023') {
+        if ($username === 'GelreMedewerker2023') {
             echo '<form action="medewerker-vluchtenoverzicht.php" method="get">
                     <button type="submit">Dashboard</button>
                   </form>';

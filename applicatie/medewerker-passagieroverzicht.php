@@ -1,20 +1,25 @@
 <?php
 include_once 'header.php';
 include_once './php/passagierstabel.php';
+include_once './php/veiligheid.php';
+
+// CSRF-token genereren
+$csrf_token = generateCSRFToken();
+
+// echo '<p>CSRF-token: ' . $csrf_token . '</p>';
 
 $pagesize = 10;
-$start = isset($_GET['start']) ? intval($_GET['start']) : 0;
+$start = ontsmet(isset($_GET['start'])) ? ontsmet(intval($_GET['start'])) : 0;
 $url = "./medewerker-passagieroverzicht.php";
 
 list($passagiers, $foutmelding) = vulPassagiers();
-
 
 ?>
 
 <div class="zoekbalk">
     <form action="./medewerker-passagieroverzicht.php" method="POST">
-        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-        <input type="text" name="passagiernummer" placeholder="Passagiernummer" />
+        <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+        <input type="text" name="passagiernummer" placeholder="Passagiernummer" required/>
         <input type="submit" value="Zoeken" />
     </form>
     <div class="toevoeg-button">

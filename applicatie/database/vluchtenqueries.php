@@ -17,7 +17,8 @@ function haalVluchten($vluchtnummer = null, $offset = 0, $limiet = 10)
         throw new InvalidArgumentException('Ongeldige sorteerparameter');
     }
 
-    if ($vluchtnummer !== null) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && $vluchtnummer !== null) {
+        $vluchtnummer = ontsmet($vluchtnummer);
         $sql = "SELECT TOP 1 Vlucht.vluchtnummer AS Vluchtnummer, Vlucht.vertrektijd AS Datum, Vlucht.gatecode AS Gate, Vlucht.bestemming AS Bestemming, 
         Vlucht.maatschappijcode AS Maatschappij, Vlucht.max_aantal AS 'Max aantal', Luchthaven.luchthavencode AS Luchthaven
         FROM Vlucht 
@@ -71,6 +72,7 @@ function haalPassagierVluchten($passagiernummer, $offset = 0, $limiet = 10)
 
 function haalVluchtDetails($vluchtnummer)
 {
+    $vluchtnummer = ontsmet($vluchtnummer);
     global $verbinding;
 
     $sql = "SELECT Vlucht.vluchtnummer AS Vluchtnummer, Vlucht.vertrektijd AS Datum, Vlucht.gatecode AS Gate, Vlucht.bestemming AS Bestemming,

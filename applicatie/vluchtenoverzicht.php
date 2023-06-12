@@ -6,7 +6,7 @@ include_once 'php/vluchtentabel.php';
 $csrf_token = generateCSRFToken();
 
 $pagesize = 10;
-$start = isset($_GET['start']) ? intval($_GET['start']) : 0;
+$start = isset($_GET['start']) ? ontsmet(intval($_GET['start'])) : 0;
 $url = "./vluchtenoverzicht.php";
 
 list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenOv', $start, $pagesize);
@@ -16,7 +16,7 @@ list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenOv', $start, $pa
 <div class="zoekbalk">
     <form action="./vluchtenoverzicht.php" method="POST">
         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-        <input type="text" name="vluchtnummer" placeholder="Zoek hier op vluchtnummer" />
+        <input type="text" name="vluchtnummer" placeholder="Zoek hier op vluchtnummer" required/>
         <input type="submit" value="Zoeken" />
     </form>
 </div>

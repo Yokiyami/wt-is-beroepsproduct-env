@@ -1,14 +1,18 @@
 <?php
 
+require_once './php/veiligheid.php';
 require_once './database/db_connectie.php';
 require_once './database/registratie-sql.php';
 
-// Zorgt ervoor dat de pagina alleen wordt verwerkt bij een POST-verzoek
+// Pagina verwerken bij een POST verzoek
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Haal de gegevens uit het formulier
-    $passagiernummer = $_POST['passagiernummer'];
-    $password = $_POST['pass'];
+    // CSRF-token validatie
+    validateCSRFToken($_POST['csrf_token']);
+
+    // Haal de gegevens uit het formulier en ontsmet deze
+    $passagiernummer = ontsmet($_POST['passagiernummer']);
+    $password = ontsmet($_POST['pass']);
 
     // Hashen van het wachtwoord.
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);

@@ -2,12 +2,17 @@
 
 include_once 'header.php';
 require_once './php/passagier-invoer.php';
+require_once './php/veiligheid.php';
+
+// CSRF-token genereren
+$csrf_token = generateCSRFToken();
 
 ?>
 
 <div class="formuliervenster">
     <h2>Passagier invoeren</h2>
     <form action="./medewerker-passagierinvoer.php" method="POST">
+        <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
         <div class="form-rij">
             <label for="naam">Naam:</label>
             <input type="text" id="naam" name="naam" required>

@@ -33,11 +33,13 @@ function generateCSRFToken() {
 
 // Functie om de CSRF-token te valideren
 function validateCSRFToken($token) {
-    if (!empty($_SESSION['csrf_token']) && is_string($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token)) {
-        unset($_SESSION['csrf_token']);
-        return true;
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $token) {
+            // CSRF-token is ongeldig of ontbreekt
+            return false;
+        }
     }
-    return false;
+    return true;
 }
 
 ?>

@@ -4,11 +4,8 @@ if (!isset($_SESSION)) {
 }
 
 require_once './database/db_connectie.php';
-include_once './php/veiligheid.php';
+require_once './php/veiligheid.php';
 require_once './database/login-sql.php';
-
-// CSRF-token
-$csrf_token = generateCSRFToken();
 
 function login()
 {
@@ -17,7 +14,7 @@ function login()
     $redirect = '';
 
     if (isset($_SESSION['username'])) {
-        $html = "<h1>Welcome " . ontsmet($_SESSION['username']) . "</h1>"; // XSS preventie
+        $html = "<h3>Welcome " . ontsmet($_SESSION['username']) . "</h3>"; // XSS preventie
         $logged_in = true;
         $redirect = 'passagier-vluchtenoverzicht.php';
     }

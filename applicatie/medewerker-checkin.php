@@ -1,6 +1,11 @@
 <?php
 include_once 'header.php';
-require_once './php/medewerker-checkin-logica.php'
+require_once './php/medewerker-checkin-logica.php';
+require_once './php/veiligheid.php';
+
+// CSRF-token genereren
+$csrf_token = generateCSRFToken();
+
     ?>
 
 <div class="formuliervenster">

@@ -8,10 +8,11 @@ function vulBagage()
     $foutmelding = null;
     $vluchtnummer = null;
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["vluchtnummer"])) {
+        validateCSRFToken($_POST['csrf_token']);
         $vluchtnummer = ontsmet($_POST["vluchtnummer"]);
     }
 
-    $passagiernummer = $_SESSION['username'] ?? null;
+    $passagiernummer = ontsmet($_SESSION['username'] ?? null);
     if ($passagiernummer === null) {
         $foutmelding = "Geen passagiernummer gevonden.";
     } else {
