@@ -2,9 +2,12 @@
 include_once 'header.php';
 require_once './php/passagier-checkin-logica.php';
 require_once './php/veiligheid.php';
+require_once './php/pagina-autorisatie.php';
 
 // CSRFtoken
 $csrf_token = generateCSRFToken();
+
+passagierAutorisatie();
 
 ?>
 

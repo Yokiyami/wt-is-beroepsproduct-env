@@ -3,8 +3,11 @@
 include_once 'header.php';
 require_once './php/vlucht-invoer.php';
 require_once './php/veiligheid.php';
+require_once './php/pagina-autorisatie.php';
 
 $csrf_token = generateCSRFToken();
+
+medewerkerAutorisatie();
 
 ?>
 

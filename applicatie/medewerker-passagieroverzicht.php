@@ -2,9 +2,12 @@
 include_once 'header.php';
 include_once './php/passagierstabel.php';
 include_once './php/veiligheid.php';
+require_once './php/pagina-autorisatie.php';
 
 // CSRF-token genereren
 $csrf_token = generateCSRFToken();
+
+medewerkerAutorisatie();
 
 // echo '<p>CSRF-token: ' . $csrf_token . '</p>';
 

@@ -3,9 +3,12 @@
 include_once 'header.php';
 require_once './php/passagier-invoer.php';
 require_once './php/veiligheid.php';
+require_once './php/pagina-autorisatie.php';
 
 // CSRF-token genereren
 $csrf_token = generateCSRFToken();
+
+medewerkerAutorisatie();
 
 ?>
 

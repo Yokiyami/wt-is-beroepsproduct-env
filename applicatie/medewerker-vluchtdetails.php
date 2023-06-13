@@ -1,9 +1,12 @@
 <?php
 include_once 'header.php';
 include_once 'php/vluchtentabel.php';
+require_once './php/pagina-autorisatie.php';
 
 // CSRF-token
 $csrf_token = generateCSRFToken();
+
+medewerkerAutorisatie();
 
 // var_dump($vluchten);
 // var_dump($vlucht);

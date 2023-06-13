@@ -2,9 +2,12 @@
 include_once 'header.php';
 require_once './php/medewerker-checkin-logica.php';
 require_once './php/veiligheid.php';
+require_once './php/pagina-autorisatie.php';
 
 // CSRF-token genereren
 $csrf_token = generateCSRFToken();
+
+medewerkerAutorisatie();
 
     ?>
 

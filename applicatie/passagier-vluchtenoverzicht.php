@@ -1,9 +1,12 @@
 <?php
 include_once 'header.php';
 include_once 'php/vluchtentabel.php';
+require_once './php/pagina-autorisatie.php';
 
 // CSRFtoken
 $csrf_token = generateCSRFToken();
+
+passagierAutorisatie();
 
 list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenPa');
 

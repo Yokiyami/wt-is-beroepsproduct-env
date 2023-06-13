@@ -1,9 +1,12 @@
 <?php
 include_once 'header.php';
 include_once './php/vluchtentabel.php';
+require_once './php/pagina-autorisatie.php';
 
 // CSRFtoken
 $csrf_token = generateCSRFToken();
+
+medewerkerAutorisatie();
 
 $pagesize = 10;
 $start = ontsmet(isset($_GET['start'])) ? ontsmet(intval($_GET['start'])) : 0;

@@ -3,9 +3,12 @@
 include_once 'header.php';
 require_once './php/veiligheid.php';
 include_once './php/bagagetabel.php';
+require_once './php/pagina-autorisatie.php';
 
 // CSRFtoken
 $csrf_token = generateCSRFToken();
+
+passagierAutorisatie();
 
 list($bagage, $foutmelding) = vulBagage();
 
