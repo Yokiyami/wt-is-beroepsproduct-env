@@ -19,8 +19,8 @@ if (!$logged_in) {
         <h2>Login</h2>
         <form action="" method="post">
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-            <input type="text" name="passagiernummer"><br>
-            <input type="password" name="password"><br>
+            <input type="text" name="passagiernummer" maxlength="20" required><br>
+            <input type="password" name="password" maxlength="20" required><br>
             <input type="submit" value="login">
         </form>
     </div>

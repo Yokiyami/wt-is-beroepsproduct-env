@@ -14,11 +14,11 @@ $csrf_token = generateCSRFToken();
     <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
     <div class="form-rij">
       <label for="vluchtnummer">Vluchtnummer:</label>
-      <input type="text" id="vluchtnummer" name="vluchtnummer" required>
+      <input type="number" id="vluchtnummer" name="vluchtnummer" required>
     </div>
     <div class="form-rij">
       <label for="bestemming">Bestemming:</label>
-      <input type="text" id="bestemming" name="bestemming" required>
+      <input type="text" id="bestemming" name="bestemming" maxlength="4" required>
     </div>
     <div class="form-rij">
       <label for="gatecode">Gatecode:</label>
@@ -49,19 +49,19 @@ $csrf_token = generateCSRFToken();
     </div>
     <div class="form-rij">
       <label for="maatschappijcode">Maatschappijcode:</label>
-      <input type="text" id="maatschappijcode" name="maatschappijcode" required>
+      <input type="text" id="maatschappijcode" name="maatschappijcode" maxlength="5" required>
     </div>
     <div class="form-rij">
       <label for="max_aantal">Max passagiers:</label>
-      <input type="text" id="max_aantal" name="max_aantal" required>
+      <input type="number" id="max_aantal" name="max_aantal" required>
     </div>
     <div class="form-rij">
       <label for="max_gewicht_pp">Max bagagegewicht per persoon:</label>
-      <input type="text" id="max_gewicht_pp" name="max_gewicht_pp" required>
+      <input type="number" id="max_gewicht_pp" name="max_gewicht_pp" required>
     </div>
     <div class="form-rij">
       <label for="max_totaalgewicht">Max bagagegewicht totaal vlucht:</label>
-      <input type="text" id="max_totaalgewicht" name="max_totaalgewicht" required>
+      <input type="number" id="max_totaalgewicht" name="max_totaalgewicht" required>
     </div>
     <div class="form-rij">
       <label for="datum">Datum:</label>

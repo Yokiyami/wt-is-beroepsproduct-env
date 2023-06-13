@@ -17,17 +17,17 @@ $csrf_token = generateCSRFToken();
         <input type="hidden" name="csrf_token" value="<?= $csrf_token; ?>">
         <div class="form-field">
             <label for="passagiernummer">Passagiernummer</label><br>
-            <input required type="text" name="passagiernummer" id="passagiernummer" />
+            <input required type="number" name="passagiernummer" id="passagiernummer" />
         </div>
 
         <div class="form-field">
-            <label for="pass">Wachtwoord</label><br>
-            <input required type="pass" name="pass" id="pass" />
+            <label for="pass">Wachtwoord(max 15 tekens)</label><br>
+            <input required type="pass" name="pass" id="pass" maxlength="15"/>
         </div>
 
         <div class="form-field">
             <label for="pass_repeat">Wachtwoord herhalen</label><br>
-            <input required type="password" name="pass_repeat" id="pass_repeat" />
+            <input required type="password" name="pass_repeat" id="pass_repeat" maxlength="15"/>
         </div>
 
         <input type="submit" value="Meld je nu aan!" />

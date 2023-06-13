@@ -15,19 +15,19 @@ $csrf_token = generateCSRFToken();
         <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
         <div class="form-rij">
             <label for="naam">Naam:</label>
-            <input type="text" id="naam" name="naam" required>
+            <input type="text" id="naam" name="naam" maxlength="30" required>
         </div>
         <div class="form-rij">
             <label for="passagiernummer">Passagiernummer:</label>
-            <input type="text" id="passagiernummer" name="passagiernummer" required>
+            <input type="number" id="passagiernummer" name="passagiernummer" required>
         </div>
         <div class="form-rij">
             <label for="vluchtnummer">Vluchtnummer:</label>
-            <input type="text" id="vluchtnummer" name="vluchtnummer" required>
+            <input type="number" id="vluchtnummer" name="vluchtnummer" required>
         </div>
         <div class="form-rij">
             <label for="stoel">Stoelnummer:</label>
-            <input type="text" id="stoel" name="stoel" required>
+            <input type="text" id="stoel" name="stoel" maxlength="4" required>
         </div>
         <div class="form-rij">
             <label for="geslacht">Geslacht:</label>

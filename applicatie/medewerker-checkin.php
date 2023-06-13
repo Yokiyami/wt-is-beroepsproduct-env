@@ -26,7 +26,7 @@ $csrf_token = generateCSRFToken();
         </div>
         <div class="form-rij">
             <label for="objectvolgnummer">Objectvolgnummer:</label>
-            <input type="number" id="objectvolgnummer" name="objectvolgnummer" required>
+            <input type="number" id="objectvolgnummer" name="objectvolgnummer" min="0" max="9" required>
         </div>
         <div class="form-rij">
             <label for="balienummer">Balienummer:</label>
