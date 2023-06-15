@@ -1,6 +1,6 @@
 <?php
 
-require_once './database/passagierqueries.php';
+require_once './database/passagier-tabel-sql.php';
 include_once './php/veiligheid.php';
 
 // Functie om een HTML tabel te genereren.

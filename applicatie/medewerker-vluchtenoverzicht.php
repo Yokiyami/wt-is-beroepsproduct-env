@@ -19,7 +19,7 @@ list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenMw', $start, $pa
 <div class="zoekbalk">
   <form action="./medewerker-vluchtenoverzicht.php" method="POST">
     <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-    <input type="number" name="vluchtnummer" placeholder="Zoek hier op vluchtnummer" required/>
+    <input type="number" name="vluchtnummer" placeholder="Vluchtnummer" required/>
     <input type="submit" value="Zoeken" />
   </form>
   <div class="toevoeg-button">

@@ -1,5 +1,5 @@
 <?php
-require_once './database/checkinquerie.php';
+require_once './database/checkin-sql.php';
 require_once './php/veiligheid.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

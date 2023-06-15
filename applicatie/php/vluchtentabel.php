@@ -3,7 +3,7 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-require_once './database/vluchtenqueries.php';
+require_once './database/vluchten-tabel-sql.php';
 include_once './php/veiligheid.php';
 
 // Genereer een nieuwe CSRF token
@@ -63,7 +63,7 @@ function vulVluchten($paginaType = null, $start = 0, $pagesize = 10)
   $vluchten = array();
   $kolommen = array();
   $foutmelding = null;
-  $passagiernummer = ontsmet($_SESSION['username']) ?? 0;
+  $passagiernummer = isset($_SESSION['username']) ? ontsmet($_SESSION['username']) : 0;
 
   if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["vluchtnummer"])) {
     $vluchtnummer = ontsmet($_POST["vluchtnummer"]);

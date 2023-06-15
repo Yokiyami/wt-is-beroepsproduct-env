@@ -1,6 +1,6 @@
 <?php
 
-require_once './database/bagagequery.php';
+require_once './database/bagage-sql.php';
 include_once './php/veiligheid.php';
 
 function vulBagage()
