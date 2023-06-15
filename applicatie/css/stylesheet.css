@@ -53,15 +53,9 @@ header img {
 
 .desktop-nav {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
   background-color: #DDD0C8;
   border: 1px solid #323232;
-}
-
-.desktop-nav ul {
-  display: flex;
-  justify-content: space-around;
-  padding: 0;
 }
 
 .mobile-nav {

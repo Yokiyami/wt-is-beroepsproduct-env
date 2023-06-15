@@ -28,12 +28,10 @@ $csrf_token = generateCSRFToken();
         </div>
     </header>
     <nav class="desktop-nav">
-        <ul>
             <a href="index.php">Startpagina</a>
             <a href="privacyverklaring.php">Privacyverklaring</a>
             <a href="contact.php">Contact</a>
             <a href="vluchtenoverzicht.php">Vluchtenoverzicht</a>
-        </ul>
     </nav>
     <nav class="mobile-nav">
         <form action="php/dropdown-menus.php" method="GET">
