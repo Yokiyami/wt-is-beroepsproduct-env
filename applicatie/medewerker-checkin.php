@@ -17,19 +17,19 @@ medewerkerAutorisatie();
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
         <div class="form-rij">
             <label for="passagiernummer">Passagiernummer:</label>
-            <input type="number" id="passagiernummer" name="passagiernummer" required>
+            <input type="number" id="passagiernummer" name="passagiernummer" required placeholder="Passagiernummer">
         </div>
         <div class="form-rij">
             <label for="vluchtnummer">Vluchtnummer:</label>
-            <input type="number" id="vluchtnummer" name="vluchtnummer" required>
+            <input type="number" id="vluchtnummer" name="vluchtnummer" required placeholder="Vluchtnummer">
         </div>
         <div class="form-rij">
             <label for="gewicht">Bagage Gewicht:</label>
-            <input type="number" id="gewicht" name="gewicht" step="0.01" required>
+            <input type="number" id="gewicht" name="gewicht" step="0.01" required placeholder="Bagage gewicht">
         </div>
         <div class="form-rij">
             <label for="objectvolgnummer">Objectvolgnummer:</label>
-            <input type="number" id="objectvolgnummer" name="objectvolgnummer" min="0" max="9" required>
+            <input type="number" id="objectvolgnummer" name="objectvolgnummer" min="0" max="9" required placeholder="Objectnr">
         </div>
         <div class="form-rij">
             <label for="balienummer">Balienummer:</label>
@@ -47,7 +47,7 @@ medewerkerAutorisatie();
                 <option value="10">10</option>
             </select>
         </div>
-        <input type="submit" value="Inchecken">
+        <input type="submit" value="Inchecken" class="button-link">
     </form>
 </div>
 

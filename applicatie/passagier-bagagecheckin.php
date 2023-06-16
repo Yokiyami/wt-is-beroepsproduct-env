@@ -39,7 +39,7 @@ passagierAutorisatie();
             <label for="gewicht2">Gewicht object 2:</label>
             <input type="number" id="gewicht2" name="gewicht[]" step="0.01">
         </div>
-        <input type="submit" value="Inchecken Bagage">
+        <input type="submit" value="Inchecken Bagage" class="button-link">
     </form>
 </div>
 

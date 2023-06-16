@@ -42,7 +42,7 @@ function genereerTabel($vluchten, $kolommen, $paginaType)
     foreach ($kolommen as $kolom) {
       if ($kolom == 'Detailpagina') {
         $detailpagina = 'medewerker-vluchtdetails.php?vluchtnummer=' . $vlucht['Vluchtnummer'];
-        $html .= '<td data-label="' . $kolom . '"><a href="' . $detailpagina . '"><button>Details</button></a></td>';
+        $html .= '<td data-label="' . $kolom . '"><a href="' . $detailpagina . '" class="button-link"><span class="button-text">Details</span></a></td>';
       } else {
         $html .= '<td data-label="' . $kolom . '">' . $vlucht[$kolom] . '</td>';
       }
@@ -103,7 +103,12 @@ function genereerPager($url, $start, $pagesize) {
   $pagefw = $start + $pagesize;
   $pagefw = $pagefw > $totalrows ? $start : $pagefw;
 
-  $result = "<div class='button-container'><a href='$url?pagesize=$pagesize&start=$pageback'><button type='button'>Vorige</button></a><a href='$url?pagesize=$pagesize&start=$pagefw'><button type='button'>Volgende</button></a></div>";
+  $result = "<div class='button-container'><a href='$url?pagesize=$pagesize&start=$pageback' class='button-link'>
+  <span class='button-text'>Vorige</span></a>
+  <a href='$url?pagesize=$pagesize&start=$pagefw' class='button-link'>
+  <span class='button-text'>Volgende</span></a>
+  </div>";
+
   return $result;
 }
 

@@ -6,7 +6,7 @@ include_once './php/veiligheid.php';
 // Functie om een HTML tabel te genereren.
 function genereerPassagierTabel($passagiers)
 {
-    $kolommen = ['naam', 'geslacht', 'passagiernummer', 'stoel', 'checkinpagina'];
+    $kolommen = ['Naam', 'Geslacht', 'Passagiernummer', 'Stoel', 'Checkinpagina'];
     $html = '<table class="tabel"><thead><tr>';
 
     // Headers genereren
@@ -20,14 +20,14 @@ function genereerPassagierTabel($passagiers)
     foreach ($passagiers as $passagier) {
         $html .= '<tr>';
         foreach ($kolommen as $kolom) {
-            if ($kolom != 'checkinpagina') {
+            if ($kolom != 'Checkinpagina') {
                 if (array_key_exists($kolom, $passagier)) {
                     $waarde = ontsmet($passagier[$kolom]);
                     $html .= '<td data-label="' . $kolom . '">' . $waarde . '</td>';
                 }
             }
         }
-        $html .= '<td data-label="checkinpagina"><a href="medewerker-checkin.php"><button>Check-in</button></a></td>';
+        $html .= '<td data-label="Checkinpagina"><a href="medewerker-checkin.php" class="button-link"><span class="button-text">Check-in</span></a></td>';
         $html .= '</tr>';
     }
 
@@ -49,8 +49,8 @@ function genereerPager($url, $start, $pagesize)
     $pagefw = $start + $pagesize;
     $pagefw = $pagefw > $totalrows ? $start : $pagefw;
 
-    $result = "<div class='button-container'><a href='$url?pagesize=$pagesize&start=$pageback'><button type='button'>Vorige</button></a><a href='$url?pagesize=$pagesize&start=$pagefw'><button type='button'>Volgende</button></a></div>";
-    return $result;
+    $result = "<div class='button-container'><a href='$url?pagesize=$pagesize&start=$pageback' class='button-link'><span class='button-text'>Vorige</span></a><a href='$url?pagesize=$pagesize&start=$pagefw' class='button-link'><span class='button-text'>Volgende</span></a></div>";
+    return $result;    
 }
 
 function vulPassagiers()

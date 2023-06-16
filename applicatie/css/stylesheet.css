@@ -136,6 +136,25 @@ main {
   flex-grow: 1;
 }
 
+.button-link {
+  display: inline-block;
+  background-color: #f2f2f2;
+  color: #333;
+  text-decoration: none;
+  padding: 5px 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.button-link:active {
+  background-color: #000; 
+  color: #fff; 
+}
+
 footer {
   background-color: #DDD0C8;
   padding: 20px;

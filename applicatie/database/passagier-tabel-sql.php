@@ -6,11 +6,11 @@ function haalPassagiers($passagiernummer = null, $offset = 0, $limiet = 10)
     global $verbinding;
 
     if ($passagiernummer !== null) {
-        $sql = "SELECT TOP 1 passagiernummer, naam, stoel, geslacht FROM Passagier WHERE passagiernummer = :passagiernummer";
+        $sql = "SELECT TOP 1 passagiernummer AS Passagiernummer, naam AS Naam, stoel AS Stoel, geslacht AS Geslacht FROM Passagier WHERE passagiernummer = :passagiernummer";
         $stmt = $verbinding->prepare($sql);
         $stmt->execute([':passagiernummer' => $passagiernummer]);
     } else {
-        $sql = "SELECT passagiernummer, naam, stoel, geslacht FROM Passagier ORDER BY passagiernummer OFFSET :offset ROWS FETCH NEXT :limiet ROWS ONLY";
+        $sql = "SELECT passagiernummer AS Passagiernummer, naam AS Naam, stoel AS Stoel, geslacht AS Geslacht FROM Passagier ORDER BY passagiernummer OFFSET :offset ROWS FETCH NEXT :limiet ROWS ONLY";
         $stmt = $verbinding->prepare($sql);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
         $stmt->bindValue(':limiet', $limiet, PDO::PARAM_INT);

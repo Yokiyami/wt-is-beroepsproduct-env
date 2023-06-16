@@ -34,16 +34,30 @@ function vulBagage()
 
 function genereerBagageTabel($bagage)
 {
-    $html = '<table class="tabel">';
-    $html .= '<thead><tr><th>Vluchtnummer</th><th>Objectvolgnummer</th><th>Gewicht</th></tr></thead>';
-    $html .= '<tbody>';
+    $kolommen = ['Vluchtnummer', 'Objectvolgnummer', 'Gewicht'];
+    $html = '<table class="tabel"><thead><tr>';
 
+    // Headers genereren
+    foreach ($kolommen as $kolom) {
+        $html .= "<th>{$kolom}</th>";
+    }
+
+    $html .= '</tr></thead><tbody>';
+
+    // Rijen genereren
     foreach ($bagage as $item) {
         foreach ($item['vluchtnummers'] as $vluchtnummer) {
             $html .= '<tr>';
-            $html .= "<td>{$vluchtnummer}</td>";
-            $html .= "<td>{$item['objectvolgnummer']}</td>";
-            $html .= "<td>{$item['gewicht']}</td>";
+            foreach ($kolommen as $kolom) {
+                $kolomLower = strtolower($kolom);
+                if (array_key_exists($kolomLower, $item)) {
+                    $waarde = ontsmet($item[$kolomLower]);
+                    $html .= '<td data-label="' . $kolom . '">' . $waarde . '</td>';
+                } else if ($kolomLower == 'vluchtnummer') {
+                    $waarde = ontsmet($vluchtnummer);
+                    $html .= '<td data-label="Vluchtnummer">' . $waarde . '</td>';
+                }
+            }
             $html .= '</tr>';
         }
     }

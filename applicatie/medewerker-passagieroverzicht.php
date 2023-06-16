@@ -22,12 +22,12 @@ list($passagiers, $foutmelding) = vulPassagiers();
 <div class="zoekbalk">
     <form action="./medewerker-passagieroverzicht.php" method="POST">
         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-        <input type="number" name="passagiernummer" placeholder="Passagiernummer" required/>
-        <input type="submit" value="Zoeken" />
+        <input type="number" name="passagiernummer" placeholder="Passagiernummer" required>
+        <input type="submit" value="Zoeken" class="button-link">
     </form>
-    <div class="toevoeg-button">
-        <a href="medewerker-passagierinvoer.php"><button>Nieuwe passagier</button></a>
-    </div>
+        <a href="medewerker-passagierinvoer.php" class="button-link">
+            <span class="button-text">Nieuwe passagier</span>
+        </a>
 </div>
 <div class="tabel-container">
     <div class="invenster-links">

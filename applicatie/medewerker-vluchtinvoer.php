@@ -17,11 +17,11 @@ medewerkerAutorisatie();
     <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
     <div class="form-rij">
       <label for="vluchtnummer">Vluchtnummer:</label>
-      <input type="number" id="vluchtnummer" name="vluchtnummer" required>
+      <input type="number" id="vluchtnummer" name="vluchtnummer" required placeholder="Vluchtnummer">
     </div>
     <div class="form-rij">
       <label for="bestemming">Bestemming:</label>
-      <input type="text" id="bestemming" name="bestemming" maxlength="4" required>
+      <input type="text" id="bestemming" name="bestemming" maxlength="4" required placeholder="Bestemming">
     </div>
     <div class="form-rij">
       <label for="gatecode">Gatecode:</label>
@@ -52,19 +52,19 @@ medewerkerAutorisatie();
     </div>
     <div class="form-rij">
       <label for="maatschappijcode">Maatschappijcode:</label>
-      <input type="text" id="maatschappijcode" name="maatschappijcode" maxlength="5" required>
+      <input type="text" id="maatschappijcode" name="maatschappijcode" maxlength="5" required placeholder="Maatschappijcode">
     </div>
     <div class="form-rij">
       <label for="max_aantal">Max passagiers:</label>
-      <input type="number" id="max_aantal" name="max_aantal" required>
+      <input type="number" id="max_aantal" name="max_aantal" required placeholder="Max passagiers">
     </div>
     <div class="form-rij">
       <label for="max_gewicht_pp">Max bagagegewicht per persoon:</label>
-      <input type="number" id="max_gewicht_pp" name="max_gewicht_pp" required>
+      <input type="number" id="max_gewicht_pp" name="max_gewicht_pp" required placeholder="Max bagage pp">
     </div>
     <div class="form-rij">
       <label for="max_totaalgewicht">Max bagagegewicht totaal vlucht:</label>
-      <input type="number" id="max_totaalgewicht" name="max_totaalgewicht" required>
+      <input type="number" id="max_totaalgewicht" name="max_totaalgewicht" required placeholder="Max bagage vlucht">
     </div>
     <div class="form-rij">
       <label for="datum">Datum:</label>
@@ -74,7 +74,7 @@ medewerkerAutorisatie();
       <label for="tijd">Tijd:</label>
       <input type="time" id="tijd" name="tijd" required>
     </div>
-    <input type="submit" value="Verzenden">
+    <input type="submit" value="Verzenden" class="button-link">
   </form>
 </div>
 

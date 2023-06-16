@@ -16,8 +16,8 @@ list($vluchten, $kolommen, $foutmelding) = vulVluchten('vluchtenOv', $start, $pa
 <div class="zoekbalk">
     <form action="./vluchtenoverzicht.php" method="POST">
         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-        <input type="number" name="vluchtnummer" placeholder="Vluchtnummer" required/>
-        <input type="submit" value="Zoeken" />
+        <input type="number" name="vluchtnummer" placeholder="Vluchtnummer" required>
+        <input type="submit" class="button-link" value="Zoeken">
     </form>
 </div>
 <div class="tabel-container">
