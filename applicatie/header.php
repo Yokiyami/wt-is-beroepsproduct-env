@@ -45,4 +45,4 @@ $csrf_token = generateCSRFToken();
             </select>
         </form>
     </nav>
-    <div class="main-container">
+    <main>

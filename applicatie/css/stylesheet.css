@@ -62,7 +62,7 @@ header img {
   display: none;
 }
 
-.main-container {
+main {
   display: flex;
   flex-grow: 1;
   background: #DDD0C8;
@@ -129,11 +129,6 @@ input,
 select {
   grid-column: 2;
   max-width: 100%;
-}
-
-main {
-  display: flex;
-  flex-grow: 1;
 }
 
 .button-link {
