@@ -29,11 +29,11 @@ function toonLoginUitlogKnop()
     } else {
         // Gebruiker is niet ingelogd, toon inlogknop
         echo '
-        <a href="./loginpage.php" class="button-link">
-            <button type="button">Log in</button>
+        <a href="./loginpage.php">
+            <button type="button" class="button-link">Log in</button>
         </a><br>
-        <a href="./registratie.php" class="button-link">
-            <button type="button">Registreren</button>
+        <a href="./registratie.php">
+            <button type="button" class="button-link">Registreren</button>
         </a>';
 
     }
