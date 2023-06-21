@@ -1,21 +1,29 @@
+/*CSS variabele om de achtergrondkleur te wijzigen*/
+:root {
+  --main-bg-color: #DDD0C8;
+}
+
 /* Padding, border etc meenemen in sizing*/
 * {
   box-sizing: border-box;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+/* Stijl voor de body van de pagina. De pagina wordt weergegeven als een flex-container, 
+gericht in de kolomrichting, met een hoogte van 100vh (viewport hoogte). Achtergrondkleur is ingesteld. */
 body {
   display: flex;
   flex-direction: column;
   height: 100vh;
   margin: 0;
-  background: #DDD0C8;
+  background: var(--main-bg-color);
 }
 
+/* Stijl voor de header. De header wordt weergegeven als een flex-container, 
+waarbij de items worden gespreid en gecentreerd. */
 header {
-  background: #DDD0C8;
-  padding-left: 20px;
-  padding-right: 20px;
+  background: var(--main-bg-color);
+  padding: calc(1vw + 10px);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -35,37 +43,44 @@ header h1 {
   flex-wrap: wrap;
 }
 
+/* Specificaties voor het img-element binnen de header. Afbeeldingen worden verkleind als er onvoldoende ruimte is. */
 header img {
   width: 150px;
   height: 150px;
   flex-shrink: 1;
 }
 
+/* Stijl voor tekstblok. Het tekstblok wordt weergegeven als een flex-container gericht in de kolomrichting, 
+waarbij de items worden gecentreerd. */
 .tekstblok {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* Paragrafen binnen het tekstblok worden gecentreerd. */
 .tekstblok p {
   text-align: center;
 }
 
+/* Stijl voor de desktop navigatiebar. De items worden gelijkmatig verspreid. */
 .desktop-nav {
   display: flex;
   justify-content: space-around;
-  background-color: #DDD0C8;
+  background: var(--main-bg-color);
   border: 1px solid #323232;
 }
 
+/* Mobile navigatiebar wordt standaard verborgen. */
 .mobile-nav {
   display: none;
 }
 
+/* Hoofdinhoud van de pagina. De main section neemt de resterende ruimte in beslag en bevat padding. */
 main {
   display: flex;
   flex-grow: 1;
-  background: #DDD0C8;
+  background: var(--main-bg-color);
   flex-direction: column;
   padding: 20px;
 }
@@ -73,7 +88,6 @@ main {
 .zoekbalk,
 .tabel-container {
   display: flex;
-  align-items: left;
 }
 
 .tabel-container {
@@ -151,11 +165,12 @@ select {
 }
 
 footer {
-  background-color: #DDD0C8;
+  background: var(--main-bg-color);
   padding: 20px;
   border: 1px solid #323232;
 }
 
+/* Zorgt voor de header animatie. Tekst begint 100% doorzichtig en groeit naar een grootte van 45px */
 @keyframes headeranimatie {
   0% {
     opacity: 0;
@@ -167,7 +182,8 @@ footer {
   }
 }
 
-/*Mediaquery voor handheld apparaten*/
+/*Mediaquery voor handheld apparaten, met o.a. het weergeven van de mobile-nav en het omzetten van één groot tabel naar meerdere,
+kleine tabellen*/
 @media(max-width: 500px) {
   header img {
     width: 50px;
@@ -219,7 +235,7 @@ footer {
   .mobile-nav {
     display: block;
     flex-direction: column;
-    background-color: #DDD0C8;
+    background: var(--main-bg-color);
     border: 1px solid #323232;
   }
 
@@ -229,7 +245,7 @@ footer {
   }
 }
 
-/* Animatie nvt op handheld */
+/*Animatie nvt op handheld*/
 @media (min-width: 501px) {
   header h1 {
     animation: headeranimatie 2s linear;

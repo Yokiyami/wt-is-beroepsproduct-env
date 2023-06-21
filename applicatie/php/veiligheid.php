@@ -10,7 +10,6 @@ function ontsmet($data) {
         $ontsmet_data = array();
         foreach ($data as $element) {
             $element = trim($element);
-            $element = stripslashes($element);
             $element = htmlspecialchars($element);
             $ontsmet_data[] = $element;
         }
@@ -18,7 +17,6 @@ function ontsmet($data) {
     }
 
     $data = trim($data);
-    $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
 }
