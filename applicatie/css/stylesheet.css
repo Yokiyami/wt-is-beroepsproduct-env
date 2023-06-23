@@ -69,6 +69,7 @@ waarbij de items worden gecentreerd. */
   justify-content: space-around;
   background: var(--main-bg-color);
   border: 1px solid #323232;
+  padding: 10px;
 }
 
 /* Mobile navigatiebar wordt standaard verborgen. */
@@ -134,7 +135,7 @@ main {
 
 .form-rij {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
   align-items: center;
 }
@@ -150,13 +151,21 @@ select {
   background-color: #f2f2f2;
   color: #333;
   text-decoration: none;
-  padding: 5px 5px;
+  padding: 10px 10px;
   border: 1px solid black;
   border-radius: 5px;
   cursor: pointer;
   font-size: 10px;
   font-weight: bold;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header .button-link {
+  margin: 5px;
+}
+
+.zoekbalk .button-link {
+  margin-left: 5px;
 }
 
 .button-link:active {
